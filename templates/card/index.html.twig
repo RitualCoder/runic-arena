@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes cartes
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto py-8">
+		<div class="flex justify-between items-center mb-6">
+			<h1 class="text-3xl font-bold">Mes cartes</h1>
+			<!-- Bouton pour créer une nouvelle carte -->
+			<a href="{{ path('app_card_create') }}" class="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600">
+				Créer une carte
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{% for card in cards %}
+				<div class="p-6 bg-white rounded-lg shadow-md border">
+					<h2 class="text-xl font-semibold mb-2">{{ card.name }}</h2>
+					<p class="text-gray-700">Type :
+						{{ card.type.value }}</p>
+					<p class="text-gray-700">Puissance :
+						{{ card.power }}</p>
+					<p class="text-gray-700">Catégorie :
+						{{ card.category.value }}</p>
+
+					<div class="flex justify-between mt-4">
+						<a href="{{ path('app_card_edit', { id: card.id }) }}" class="text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">
+							Modifier
+						</a>
+
+						<!-- Bouton pour afficher la popup -->
+						<button data-card-id="{{ card.id }}" data-csrf-token="{{ csrf_token('delete_card_' ~ card.id) }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 show-delete-popup">
+							Supprimer
+						</button>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<!-- Popup de confirmation -->
+	<div id="delete-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+		<div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+			<h2 class="text-xl font-semibold mb-4">Êtes-vous sûr de vouloir supprimer cette carte ?</h2>
+			<div class="flex justify-end gap-4">
+				<button id="cancel-delete" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+					Annuler
+				</button>
+				<!-- Formulaire de suppression -->
+				<form id="delete-form" method="POST" class="inline-block">
+					<input type="hidden" name="_token" value="">
+					<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+						Confirmer
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript pour gérer la popup -->
+	<script>
+		document.querySelectorAll('.show-delete-popup').forEach(button => {
+button.addEventListener('click', () => {
+const popup = document.getElementById('delete-popup');
+const form = document.getElementById('delete-form');
+const cardId = button.getAttribute('data-card-id');
+const csrfToken = button.getAttribute('data-csrf-token');
+
+// Configure l'action du formulaire et le CSRF token
+form.setAttribute('action', `/card/${cardId}/delete`);
+form.querySelector('input[name="_token"]').value = csrfToken;
+
+// Affiche la popup
+popup.classList.remove('hidden');
+});
+});
+
+document.getElementById('cancel-delete').addEventListener('click', () => {
+const popup = document.getElementById('delete-popup');
+popup.classList.add('hidden');
+});
+	</script>
+{% endblock %}
