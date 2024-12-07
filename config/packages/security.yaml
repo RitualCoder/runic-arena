@@ -15,6 +15,8 @@ security:
       security: false
     main:
       lazy: true
+      entry_point: App\Security\AuthenticationEntryPoint
+      access_denied_handler: App\Security\AccessDeniedHandler
       provider: app_user_provider
       form_login:
         login_path: app_login
@@ -36,20 +38,14 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     # Les admin peuvent accéder à /admin*
-    - { path: "^/admin", roles: ROLE_ADMIN }
+    - { path: "^/dashboard", roles: ROLE_ADMIN }
 
-    # Les admin et auteurs peuvent accéder à /admin/formation* et /admin/category*
-    - { path: "^/admin/(formation|category)", roles: ROLE_AUTHOR }
-
-    # Les utilisateurs authentifiés peuvent accéder à /formations*
-    - { path: "^/formations", roles: ROLE_USER }
-
-    # Les utilisateurs authentifiés peuvent accéder aux URLs de la forme /api/formations/7298 et /api/category/528491
-    - { path: '^/api/(formations|category)/\d+$', roles: ROLE_USER }
+    # Les utilisateurs authentifiés peuvent accéder à /card*
+    - { path: "^/(card|cards)", roles: ROLE_USER }
 
   role_hierarchy:
     ROLE_AUTHOR: ROLE_USER
-    ROLE_ADMIN: [ROLE_AUTHOR, ROLE_ALLOWED_TO_SWITCH]
+    ROLE_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
 when@test:
   security:

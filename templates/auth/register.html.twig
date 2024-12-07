@@ -11,6 +11,20 @@
 			{{ form_start(registrationForm) }}
 
 			<div class="mb-4">
+				{{ form_label(registrationForm.username, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(registrationForm.username, {
+                'attr': {
+                    'class': registrationForm.username.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
+                }
+            }) }}
+				{% if registrationForm.username.vars.errors|length > 0 %}
+					<p class="mt-1 text-sm text-red-500">
+						{{ form_errors(registrationForm.username) }}
+					</p>
+				{% endif %}
+			</div>
+
+			<div class="mb-4">
 				{{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 				{{ form_widget(registrationForm.email, {
                 'attr': {
