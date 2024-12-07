@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Runic - Register
+{% endblock %}
+
+{% block body %}
+	<div class="flex items-center justify-center min-h-screen bg-gray-100">
+		<div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+			<h1 class="text-2xl font-bold text-center">Register</h1>
+
+			{{ form_start(registrationForm) }}
+
+			<div class="mb-4">
+				{{ form_label(registrationForm.username, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(registrationForm.username, {
+                'attr': {
+                    'class': registrationForm.username.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
+                }
+            }) }}
+				{% if registrationForm.username.vars.errors|length > 0 %}
+					<p class="mt-1 text-sm text-red-500">
+						{{ form_errors(registrationForm.username) }}
+					</p>
+				{% endif %}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(registrationForm.email, {
+                'attr': {
+                    'class': registrationForm.email.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
+                }
+            }) }}
+				{% if registrationForm.email.vars.errors|length > 0 %}
+					<p class="mt-1 text-sm text-red-500">
+						{{ form_errors(registrationForm.email) }}
+					</p>
+				{% endif %}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(registrationForm.plainPassword, {
+                'attr': {
+                    'class': registrationForm.plainPassword.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
+                }
+            }) }}
+				{% if registrationForm.plainPassword.vars.errors|length > 0 %}
+					<p class="mt-1 text-sm text-red-500">
+						{{ form_errors(registrationForm.plainPassword) }}
+					</p>
+				{% endif %}
+			</div>
+
+			<div class="flex items-center mb-4">
+				{{ form_row(registrationForm.agreeTerms, {
+                'label': false,
+                'attr': {'class': 'mr-2'}
+            }) }}
+				<label for="{{ registrationForm.agreeTerms.vars.id }}" class="text-sm">I agree to the terms</label>
+			</div>
+
+			<button type="submit" class="w-full py-2 mt-4 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Register</button>
+
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
+{% endblock %}
