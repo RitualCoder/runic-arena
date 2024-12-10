@@ -6,7 +6,37 @@
 			{% block title %}Runic Arena
 			{% endblock %}
 		</title>
-		<link rel="icon" href="/assets/RunicLogo.svg"> {% block stylesheets %}{% endblock %}
+		<link rel="icon" href="/assets/RunicLogo.svg">
+		<style>
+			/* Effet 3D de la carte */
+			.group:hover .card-content {
+				transform: translateY(-10px) scale(1.05); /* L'effet de soulevé */
+				transition: transform 0.3s ease-out;
+			}
+
+			.card-content {
+				transition: transform 0.1s ease-in-out; /* Transition lisse */
+				transform-style: preserve-3d;
+			}
+
+			.perspective-1500 {
+				perspective: 1500px; /* Donne de la profondeur à la carte pour l'effet 3D */
+			}
+
+			.card-content {
+				will-change: transform; /* Optimisation des performances */
+			}
+
+			/* Mouse move effect */
+			.group:hover .card-content {
+				cursor: pointer;
+			}
+
+			.group:hover .card-content {
+				transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+			}
+		</style>
+		<link href="https://fonts.cdnfonts.com/css/gill-sans-2" rel="stylesheet"> {% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
 			{% block importmap %}

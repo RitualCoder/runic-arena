@@ -1,10 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CardController!
+{% block title %}Créer ou Modifier une Carte
 {% endblock %}
 
 {% block body %}
-	<div class="example-wrapper">
-		{{form(form)}}
-		</div>
-	{% endblock %}
+	<div class="container mx-auto py-8">
+		<h1 class="text-3xl font-bold mb-6">Créer une Carte</h1>
+
+		<form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+			{{ form_start(form) }}
+
+			<!-- Champs du formulaire -->
+			<div class="mb-4 flex items-center">
+				<div class="w-full mr-2">
+					{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+					{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+					{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+				</div>
+				<button type="button" id="generateNameButton" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+					Générer un nom
+				</button>
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(form.power, 'Puissance', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(form.power, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(form.power, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(form.category, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(form.category, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(form.imageFile, 'Image', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<!-- Boutons -->
+			<div class="flex justify-end gap-4 mt-6">
+				<a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+					Annuler
+				</a>
+				<button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+					Sauvegarder
+				</button>
+			</div>
+
+			{{ form_end(form) }}
+		</form>
+	</div>
+	<script>
+		document.getElementById('generateNameButton').addEventListener('click', function () {
+fetch('{{ path('generate_card_name') }}').then(response => response.json()).then(data => {
+const randomName = data.name;
+console.log('Generated Name:', randomName);
+
+const nameField = document.querySelector('#card_form_name');
+if (nameField) {
+nameField.value = randomName;
+} else {
+console.log('Name field not found!');
+}
+}).catch(error => {
+console.error('Error:', error);
+});
+});
+	</script>
+
+{% endblock %}

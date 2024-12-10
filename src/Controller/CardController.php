@@ -10,15 +10,27 @@ use App\Entity\Card;
 use App\Form\CardFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use App\Service\RandomNameGenerator;
+use App\Enum\CardType;
 
 class CardController extends AbstractController
 {
-    #[Route('/cards', name: 'app_card')]
+    private $randomNameGenerator;
+
+    // Injection du service RandomNameGenerator
+    public function __construct(RandomNameGenerator $randomNameGenerator)
+    {
+        $this->randomNameGenerator = $randomNameGenerator;
+    }
+
+    #[Route('/cards', name: 'app_cards')]
     public function index(EntityManagerInterface $em, Security $security): Response
     {
 
         $user = $security->getUser();
         $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
+
+        dump($cards[0]->getType()->value);
 
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
@@ -41,7 +53,7 @@ class CardController extends AbstractController
             $em->persist($card);
             $em->flush();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_cards');
         }
 
         return $this->render('card/create.html.twig', [
@@ -65,7 +77,7 @@ class CardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('app_card');
+            return $this->redirectToRoute('app_cards');
         }
 
         return $this->render('card/edit.html.twig', [
@@ -88,6 +100,14 @@ class CardController extends AbstractController
         $em->flush();
 
         // Redirigez l'utilisateur vers la liste des cartes
-        return $this->redirectToRoute('app_card');
+        return $this->redirectToRoute('app_cards');
+    }
+
+    #[Route('/generate-card-name', name: 'generate_card_name', methods: ['GET'])]
+    public function generateName(): Response
+    {
+        $name = $this->randomNameGenerator->generate();
+
+        return $this->json(['name' => $name]);
     }
 }

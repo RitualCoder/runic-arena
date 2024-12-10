@@ -1,7 +1,39 @@
+@font-face {
+  font-family: "FuturaMedium";
+  src: url("/fonts/futuraMedium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FuturaMediumCondensed";
+  src: url("/fonts/FuturaMediumCondensed.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FuturaLight";
+  src: url("/fonts/futuraLight.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FuturaBold";
+  src: url("/fonts/FuturaBold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-primary: "futuraMedium", sans-serif;
+}
+
 body {
-    background-color: skyblue;
+  font-family: var(--font-primary);
 }

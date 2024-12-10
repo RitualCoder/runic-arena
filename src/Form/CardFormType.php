@@ -7,16 +7,25 @@ use App\Enum\CardCategory;
 use App\Enum\CardType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CardFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la carte',
+                'attr' => [
+                    'placeholder' => 'Entrez un nom',
+                ],
+                'mapped' => true,
+                'required' => true,
+            ])
+
             ->add('type', ChoiceType::class, [
                 'choices' => array_combine(
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardType::cases()),
@@ -25,7 +34,7 @@ class CardFormType extends AbstractType
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
                 'choice_value' => fn($choice) => $choice ? $choice->value : null,
                 'placeholder' => 'Choisir...',
-                'required' => false,
+                'required' => true,
             ])
             ->add('power')
             ->add('category', ChoiceType::class, [
@@ -36,9 +45,16 @@ class CardFormType extends AbstractType
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
                 'choice_value' => fn($choice) => $choice ? $choice->value : null,
                 'placeholder' => 'Choisir...',
-                'required' => false,
+                'required' => true,
             ])
-            ->add('Enregistrer', SubmitType::class);
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image de la carte (PNG, JPG)',
+                'required' => false,
+                'mapped' => true,
+                'attr' => [
+                    'accept' => 'image/*',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
