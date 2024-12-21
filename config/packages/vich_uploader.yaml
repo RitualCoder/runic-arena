@@ -1,0 +1,14 @@
+# config/packages/vich_uploader.yaml or app/config/config.yml
+vich_uploader:
+  db_driver: orm
+
+  metadata:
+    type: attribute
+
+  mappings:
+    card_images:
+      uri_prefix: /images/cards
+      upload_destination: "%kernel.project_dir%/public/images/cards"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      delete_on_remove: true
+      delete_on_update: true

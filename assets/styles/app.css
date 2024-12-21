@@ -1,7 +1,98 @@
+@font-face {
+  font-family: "GillSansCn";
+  src: url("/fonts/GillSansNovaBoldCn.otf") format("truetype");
+  font-weight: 700;
+  font-style: condensed;
+}
+
+@font-face {
+  font-family: "GillSansCn";
+  src: url("/fonts/GillSansNovaSemiBoldCn.otf") format("truetype");
+  font-weight: 600;
+  font-style: condensed;
+}
+
+@font-face {
+  font-family: "GillSansCn";
+  src: url("/fonts/GillSansNovaMediumCn.otf") format("truetype");
+  font-weight: 500;
+  font-style: condensed;
+}
+
+@font-face {
+  font-family: "GillSans";
+  src: url("/fonts/gill-sans-mt-condensed-bold.otf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GillSans";
+  src: url("/fonts/GillSansNovaSemiBold.otf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GillSans";
+  src: url("/fonts/GillSansNovaMedium.otf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mitra";
+  src: url("/fonts/MitraLight.otf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-primary: "GillSans", sans-serif;
+}
+
 body {
-    background-color: skyblue;
+  font-family: var(--font-primary);
+  background-color: #393c41;
+  color: #fff;
+}
+
+.card {
+  perspective: 1000px;
+}
+
+.card-content {
+  transform-style: preserve-3d; /* Maintient l'effet 3D */
+  transition: transform 0.1s ease-out, box-shadow 0.3s ease-in-out; /* Ajout de la transition pour l'ombre */
+  border-radius: 20px;
+}
+
+.card:hover .card-content {
+  transform: rotateY(10deg) rotateX(10deg); /* Légère rotation pour l'effet 3D */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6); /* Ombre dynamique */
+}
+
+.card-content {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Ombre de base */
+}
+
+.user-drag-none {
+  -webkit-user-drag: none;
+}
+
+.halo {
+  height: 180px;
+  width: 180px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  );
+  box-shadow: 0 0 80px rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease, transform 0.1s ease;
 }

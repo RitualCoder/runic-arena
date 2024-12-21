@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Runic Arena
+			{% endblock %}
+		</title>
+		<link rel="icon" href="/assets/RunicLogo.svg">
+		<style>
+			/* Effet 3D de la carte */
+			.group:hover .card-content {
+				transform: translateY(-10px) scale(1.05); /* L'effet de soulevé */
+				transition: transform 0.3s ease-out;
+			}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+			.card-content {
+				transition: transform 0.1s ease-in-out; /* Transition lisse */
+				transform-style: preserve-3d;
+			}
+
+			.perspective-1500 {
+				perspective: 1500px; /* Donne de la profondeur à la carte pour l'effet 3D */
+			}
+
+			.card-content {
+				will-change: transform; /* Optimisation des performances */
+			}
+
+			/* Mouse move effect */
+			.group:hover .card-content {
+				cursor: pointer;
+			}
+
+			.group:hover .card-content {
+				transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+			}
+		</style>
+		<link href="https://fonts.cdnfonts.com/css/gill-sans-2" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		{% block body %}{% endblock %}
+	</body>
 </html>
