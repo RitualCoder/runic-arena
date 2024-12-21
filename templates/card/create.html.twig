@@ -4,77 +4,121 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto py-8">
-		<h1 class="text-3xl font-bold mb-6">Créer une Carte</h1>
+<div class="container mx-auto py-8">
+	<h1 class="text-3xl font-bold mb-6">Créer ou Modifier une Carte</h1>
 
-		<form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-			{{ form_start(form) }}
+	{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 
-			<!-- Champs du formulaire -->
-			<div class="mb-4 flex items-center">
-				<div class="w-full mr-2">
-					{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-					{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-					{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-				</div>
-				<button type="button" id="generateNameButton" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-					Générer un nom
-				</button>
-			</div>
-
-			<div class="mb-4">
-				{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-			</div>
-
-			<div class="mb-4">
-				{{ form_label(form.power, 'Puissance', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.power, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.power, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-			</div>
-
-			<div class="mb-4">
-				{{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.category, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.category, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-			</div>
-
-			<div class="mb-4">
-				{{ form_label(form.imageFile, 'Image', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-			</div>
-
-			<!-- Boutons -->
-			<div class="flex justify-end gap-4 mt-6">
-				<a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-					Annuler
-				</a>
-				<button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-					Sauvegarder
-				</button>
-			</div>
-
-			{{ form_end(form) }}
-		</form>
+	<!-- Champ pour le nom de la carte -->
+	<div class="mb-4">
+		{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+		{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+		{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm'}}) }}
 	</div>
-	<script>
-		document.getElementById('generateNameButton').addEventListener('click', function () {
-fetch('{{ path('generate_card_name') }}').then(response => response.json()).then(data => {
-const randomName = data.name;
-console.log('Generated Name:', randomName);
 
-const nameField = document.querySelector('#card_form_name');
-if (nameField) {
-nameField.value = randomName;
-} else {
-console.log('Name field not found!');
+	<!-- Champ pour le type de carte -->
+	<div class="mb-4">
+		{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+		{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+		{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+	</div>
+
+	<!-- Champ pour les points de vie -->
+	<div class="mb-4">
+		{{ form_label(form.pv, 'Points de vie', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+		{{ form_widget(form.pv, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+		{{ form_errors(form.pv, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+	</div>
+
+	<!-- Champ pour le fichier image -->
+	<div class="mb-4">
+		{{ form_label(form.imageFile, 'Image de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+		{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+		{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+	</div>
+
+	<h1 class="text-xl font-bold mb-6 mt-6">Attaque 1</h1>
+
+	<div id="attacks-container" class="space-y-4">
+		{% for attack in form.attacks %}
+			<div
+				class="attack-item bg-gray-50 p-4 border rounded-md shadow-sm">
+				<!-- Champ pour le titre -->
+				<div class="mb-4">
+					{{ form_label(attack.title, 'Titre de l\'attaque', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(attack.title, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(attack.title, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<!-- Champ pour la puissance -->
+			<div class="mb-4">
+				{{ form_label(attack.power, 'Puissance', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(attack.power, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(attack.power, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<!-- Champ pour la description -->
+			<div class="mb-4">
+				{{ form_label(attack.description, 'Description', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
+				{{ form_widget(attack.description, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
+				{{ form_errors(attack.description, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+			</div>
+
+			<!-- Bouton pour supprimer une attaque -->
+			<div class="flex justify-end">
+				<button type="button" class="remove-attack bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+					Supprimer cette attaque
+				</button>
+			</div>
+	
+		{% endfor %}
+
+		<button type="button" id="add-attack" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Ajouter une attaque</button>
+
+		<!-- Boutons -->
+		<div class="flex justify-end gap-4 mt-6">
+			<a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+				Annuler
+			</a>
+			<button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+				Enregistrer la carte
+			</button>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+const attacksContainer = document.querySelector('#attacks-container');
+const addAttackButton = document.querySelector('#add-attack');
+
+// Compteur pour les nouvelles attaques
+let attackIndex = attacksContainer.children.length;
+
+addAttackButton.addEventListener('click', () => { // Récupérer le prototype du champ CollectionType
+const prototype = attacksContainer.dataset.prototype;
+
+// Remplacer les placeholders par l'index actuel
+const newForm = prototype.replace(/__name__/g, attackIndex);
+
+// Créer un élément contenant le nouveau champ
+const attackItem = document.createElement('div');
+attackItem.classList.add('attack-item');
+attackItem.innerHTML = newForm + '<button type="button" class="remove-attack bg-red-500 text-white px-2 py-1 rounded">Supprimer</button>';
+
+attacksContainer.appendChild(attackItem);
+
+attackIndex++;
+});
+
+// Suppression dynamique des attaques
+attacksContainer.addEventListener('click', (event) => {
+if (event.target.classList.contains('remove-attack')) {
+const attackItem = event.target.closest('.attack-item');
+attackItem.remove();
 }
-}).catch(error => {
-console.error('Error:', error);
 });
 });
 	</script>
-
 {% endblock %}

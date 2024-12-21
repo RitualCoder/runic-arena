@@ -15,22 +15,61 @@
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{% for card in cards %}
-				<div class="p-6 bg-white rounded-lg shadow-md border relative" style="width: 350px;">
+				<div class="p-6 rounded-lg shadow-md relative w-[350px]">
 					{% if card.imagePath %}
-						<div class="flex mt-4 w-full justify-center">
-							<div class="relative group perspective-1500" style="width: 300px; height: auto;">
-								<div class="card-content group-hover:scale-105 transition-all duration-300 ease-in-out relative">
-									<p class="absolute font-futuraBold z-20 top-[14px] left-[56px] text-[18px]">{{ card.name }}</p>
-									<p class="absolute font-futuraBold z-20 top-[12px] right-[40px] text-[10px]">pv<span class="text-[19px] tracking-tighter">{{ card.power }}</span>
-									</p>
+						<div class="card">
+							<div
+								class="card-content relative overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
 
-									<img src='/assets/template_cards/{{card.type.value}}.png' alt="{{ card.type.value }}.png" class="relative z-10 w-full h-auto">
+								<!-- Halo lumineux -->
+								<div class="halo absolute z-30 top-0 left-0 w-24 h-24 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-									<img src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="absolute top-0 left-1/2 transform -translate-x-1/2 pt-6 w-[95%] h-auto rounded">
+								{# Nom de la carte #}
+								<p class="absolute font-GillSans font-sem z-20 top-[11px] left-[58px] text-[20px]">{{ card.name }}</p>
+
+								{# PV #}
+								<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[41px] text-[8px] tracking-tighter">PV
+									<span class="text-[24px] font-GillSans font-sem tracking-tighter">{{ card.pv }}</span>
+								</p>
+
+
+								{# Attaques de la carte #}
+								<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[66px] left-[24px] h-[140px] w-[260px] p-1">
+									{% set index = 0 %}
+									{% for attack in card.attacks %}
+										{% set index = index + 1 %}
+										<div class="flex flex-col">
+											<div class="flex items-center justify-between w-[252px] align-baseline">
+												<div class="flex items-center gap-6">
+													<div
+														class="flex w-[60px] items-center gap-[2px]">
+														{# Afficher le nombre d'énergies basé sur l'index de la première boucle #}
+														{% for i in 1..attack.cost %}
+															<img src="/assets/energies/{{ card.type.value }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px]">
+														{% endfor %}
+													</div>
+													<p class="font-GillSansCn font-bold text-[18px] leading-[18px]">{{ attack.title }}</p>
+												</div>
+												<p class="font-GillSans font-semibold text-[17px] leading-[18px]">{{ attack.power }}</p>
+											</div>
+											<p class="font-GillSans font-medium text-[10px]">{{ attack.description }}</p>
+										</div>
+									{% endfor %}
+
+
+								</div>
+
+								{# Type de la carte #}
+								<img
+								src="/assets/template_cards/{{card.type.value}}.png" alt="{{ card.type.value }}.png" class="relative z-10 w-full h-auto user-drag-none">
+
+								{# Image du pokemon #}
+								<div class="absolute top-[42px] left-[24px] border-black h-[156px] w-[252px] bg-white user-drag-none">
+									<img draggable='false' src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
 								</div>
 							</div>
-
 						</div>
+
 
 					{% endif %}
 
@@ -69,28 +108,35 @@
 		</div>
 	</div>
 
-	<!-- JavaScript pour gérer la popup -->
 	<script>
-		console.log('Hello from the card index page!', cards);
-document.querySelectorAll('.show-delete-popup').forEach(button => {
-button.addEventListener('click', () => {
-const popup = document.getElementById('delete-popup');
-const form = document.getElementById('delete-form');
-const cardId = button.getAttribute('data-card-id');
-const csrfToken = button.getAttribute('data-csrf-token');
+		document.querySelectorAll('.card').forEach((card) => {
+const cardContent = card.querySelector('.card-content');
+const halo = card.querySelector('.halo');
 
-// Configure l'action du formulaire et le CSRF token
-form.setAttribute('action', `/card/${cardId}/delete`);
-form.querySelector('input[name="_token"]').value = csrfToken;
+card.addEventListener('mousemove', (e) => { // Afficher le halo
+halo.style.opacity = '1';
 
-// Affiche la popup
-popup.classList.remove('hidden');
+const rect = card.getBoundingClientRect();
+const x = e.clientX - rect.left; // Position X de la souris relative à la carte
+const y = e.clientY - rect.top; // Position Y de la souris relative à la carte
+
+const xRot = ((y / rect.height) - 0.5) * 50; // Rotation X
+const yRot = ((x / rect.width) - 0.5) * -50; // Rotation Y
+
+cardContent.style.transform = `rotateX(${xRot}deg) rotateY(${yRot}deg)`;
+
+// Positionner le halo
+halo.style.left = `${x}px`;
+halo.style.top = `${y}px`;
 });
-});
 
-document.getElementById('cancel-delete').addEventListener('click', () => {
-const popup = document.getElementById('delete-popup');
-popup.classList.add('hidden');
+card.addEventListener('mouseleave', () => {
+cardContent.style.transform = 'rotateX(0deg) rotateY(0deg)';
+// Retour à l'état initial
+
+// Cacher le halo
+halo.style.opacity = '0';
+});
 });
 	</script>
 {% endblock %}

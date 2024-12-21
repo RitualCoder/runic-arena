@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Service\RandomNameGenerator;
 use App\Enum\CardType;
+use App\Form\AttackFormType;
+use App\Entity\Attack;
 
 class CardController extends AbstractController
 {
@@ -30,7 +32,7 @@ class CardController extends AbstractController
         $user = $security->getUser();
         $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
 
-        dump($cards[0]->getType()->value);
+        dump($cards[0]->getAttacks());
 
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
@@ -42,14 +44,20 @@ class CardController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, Security $security): Response
     {
         $card = new Card();
+
+        // Ajouter deux attaques au formulaire principal
+        $attack1 = new Attack();
+        $attack2 = new Attack();
+        $card->addAttack($attack1);
+        $card->addAttack($attack2);
+
         $form = $this->createForm(CardFormType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $security->getUser();
-
             $card->setUser($user);
+
             $em->persist($card);
             $em->flush();
 
@@ -60,6 +68,7 @@ class CardController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/card/{id}/edit', name: 'app_card_edit')]
     public function edit(int $id, Request $request, EntityManagerInterface $em): Response

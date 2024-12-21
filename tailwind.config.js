@@ -4,10 +4,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        futuraMedium: ["FuturaMedium", "sans-serif"],
-        FuturaMediumCondensed: ["FuturaMediumCondensed", "sans-serif"],
-        futuraLight: ["FuturaLight", "sans-serif"],
-        futuraBold: ["FuturaBold", "sans-serif"],
+        GillSans: ["GillSans", "sans-serif"],
+        GillSansCn: ["GillSansCn", "sans-serif"],
+      },
+      fontWeight: {
+        medium: 500,
+        sem: 600,
+        bold: 700,
       },
     },
   },
