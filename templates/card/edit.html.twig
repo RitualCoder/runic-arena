@@ -4,56 +4,122 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto py-8">
-		<h1 class="text-3xl font-bold mb-6">Modifier votre carte</h1>
+<div class="container mx-auto py-8">
+	<h1 class="text-3xl font-bold mb-6 text-center">Modifier votre carte</h1>
 
-		<form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-			{{ form_start(form) }}
+	<form method="post" enctype="multipart/form-data" class="bg-transparent">
+		{{ form_start(form) }}
 
-			<!-- Champs du formulaire -->
-			<div class="mb-4">
-				{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+		<div
+			class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+			<!-- Partie formulaire -->
+			<div
+				class="flex flex-col space-y-4 px-10">
+				<!-- Champ Nom de la carte -->
+				<div class="">
+					{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+					{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
+					{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				</div>
+
+				<!-- Champ Type de la carte -->
+				<div class="mb-4">
+					{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+					{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
+					{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				</div>
+
+				<!-- Champ Puissance (HP) -->
+				<div class="mb-4">
+					{{ form_label(form.hp, 'Point de vie', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+					{{ form_widget(form.hp, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
+					{{ form_errors(form.hp, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				</div>
+
+				<!-- Champ Description -->
+				<div class="mb-4">
+					{{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+					{{ form_widget(form.description, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
+					{{ form_errors(form.description, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				</div>
 			</div>
+			<!-- Partie image -->
+			<div class="flex flex-col justify-center items-center">
+				<div class="w-full max-w-xs">
+					{% if card.imagePath %}
+						<p class=" text-sm mb-2">Image actuelle :</p>
+						<img src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="max-w-full rounded border">
+					{% endif %}
+				</div>
+				<!-- Champ Image -->
+				<div class="mb-4">
 
-			<div class="mb-4">
-				{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+					{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
+					{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				</div>
 			</div>
+		</div>
 
-			<div class="mb-4">
-				{{ form_label(form.pv, 'Puissance', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
-				{{ form_widget(form.pv, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.pv, {'attr': {'class': 'text-red-500 text-sm'}}) }}
-			</div>
+		{# Divider #}
+		<hr
+		class="border border-gray-400 my-10 px-10">
 
-			<div class="mb-4">
-				{{ form_label(form.imageFile, 'Image', {'label_attr': {'class': 'block text-gray-700 font-medium mb-2'}}) }}
 
-				{% if card.imagePath %}
-					<div class="mb-4">
-						<p class="text-gray-600 text-sm mb-2">Image actuelle :</p>
-						<img src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="max-w-xs rounded border">
+		<!-- Sous-formulaire pour les attaques -->
+		<div class="mb-4">
+			{% set index = 0 %}
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{% for attackForm in form.attacks %}
+					{% set index = index + 1 %}
+					<div class="flex flex-col space-y-4 rounded-lg shadow-sm bg-transparent px-10">
+						<h2 class="text-white text-xl mb-1">Attaque
+							{{ index }}</h2>
+
+						<!-- Champ Title -->
+						<div class="mb-4">
+							{{ form_label(attackForm.title, 'Nom de l\'attaque', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+							{{ form_widget(attackForm.title, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+							{{ form_errors(attackForm.title, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+            			</div>
+
+						<!-- Champ Power -->
+						<div class="mb-4">
+							{{ form_label(attackForm.power, 'Puissance', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+							{{ form_widget(attackForm.power, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+							{{ form_errors(attackForm.power, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+						</div>
+
+						<!-- Champ Description -->
+						<div class="mb-4">
+							{{ form_label(attackForm.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+							{{ form_widget(attackForm.description, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+							{{ form_errors(attackForm.description, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+						</div>
+
+						<!-- Champs Cost -->
+						<div class="mb-4">
+							{{ form_label(attackForm.cost, 'Coût', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
+							{{ form_widget(attackForm.cost, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+							{{ form_errors(attackForm.cost, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+						</div>
 					</div>
-				{% endif %}
-
-				{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 border rounded-md'}}) }}
-				{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm'}}) }}
+				{% endfor %}
 			</div>
+        </div>
 
-			<!-- Boutons -->
-			<div class="flex justify-end gap-4 mt-6">
-				<a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-					Annuler
-				</a>
-				<button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-					Sauvegarder
-				</button>
-			</div>
+        <!-- Boutons -->
+        <div class="flex justify-end gap-4 mt-6">
+            <a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200 ease-in-out">
+                Annuler
+            </a>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ease-in-out">
+                Sauvegarder
+            </button>
+        </div>
 
-			{{ form_end(form) }}
-		</form>
-	</div>
+        {{ form_end(form) }}
+    </form>
+</div>
 {% endblock %}

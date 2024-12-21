@@ -40,6 +40,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Mitra";
+  src: url("/fonts/MitraLight.otf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

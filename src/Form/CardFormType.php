@@ -37,7 +37,16 @@ class CardFormType extends AbstractType
                 'placeholder' => 'Choisir...',
                 'required' => true,
             ])
-            ->add('pv')
+            
+            ->add('hp', TextType::class, [
+                'label' => 'Points de vie',
+                'attr' => [
+                    'placeholder' => 'Entrez un nombre',
+                ],
+                'mapped' => true,
+                'required' => true,
+            ])
+
             ->add('imageFile', FileType::class, [
                 'label' => 'Image de la carte (PNG, JPG)',
                 'required' => false,
@@ -46,13 +55,18 @@ class CardFormType extends AbstractType
                     'accept' => 'image/*',
                 ],
             ])
+            ->add('description', TextType::class, [
+                'label' => 'Description de la carte',
+                'attr' => [
+                    'placeholder' => 'Entrez une description',
+                ],
+                'mapped' => true,
+                'required' => true,
+            ])
             // Sous-formulaire pour les attaques
             ->add('attacks', CollectionType::class, [
-                'entry_type' => AttackFormType::class, // Utilisation d'un autre formulaire pour les attaques
-                'allow_add' => true, // Permet d'ajouter dynamiquement des attaques si nécessaire
-                'allow_delete' => true, // Permet de supprimer des attaques si nécessaire
-                'by_reference' => false, // Obligatoire pour les relations OneToMany ou ManyToMany
-                'label' => false, // Pas de label pour le champ collection
+                'entry_type' => AttackFormType::class,
+                'by_reference' => false,
             ]);
     }
 

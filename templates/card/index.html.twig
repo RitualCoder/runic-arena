@@ -13,9 +13,9 @@
 			</a>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
 			{% for card in cards %}
-				<div class="p-6 rounded-lg shadow-md relative w-[350px]">
+				<div class="p-6 rounded-lg shadow-md relative w-[350px] justify-center">
 					{% if card.imagePath %}
 						<div class="card">
 							<div
@@ -29,28 +29,28 @@
 
 								{# PV #}
 								<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[41px] text-[8px] tracking-tighter">PV
-									<span class="text-[24px] font-GillSans font-sem tracking-tighter">{{ card.pv }}</span>
+									<span class="text-[24px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
 								</p>
 
 
 								{# Attaques de la carte #}
 								<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[66px] left-[24px] h-[140px] w-[260px] p-1">
-									{% set index = 0 %}
 									{% for attack in card.attacks %}
-										{% set index = index + 1 %}
 										<div class="flex flex-col">
 											<div class="flex items-center justify-between w-[252px] align-baseline">
 												<div class="flex items-center gap-6">
 													<div
 														class="flex w-[60px] items-center gap-[2px]">
 														{# Afficher le nombre d'énergies basé sur l'index de la première boucle #}
-														{% for i in 1..attack.cost %}
-															<img src="/assets/energies/{{ card.type.value }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px]">
-														{% endfor %}
+														{% if attack.cost > 0 %}
+															{% for i in 1..attack.cost %}
+																<img src="/assets/energies/{{ card.type.value }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px]">
+															{% endfor %}
+														{% endif %}
 													</div>
-													<p class="font-GillSansCn font-bold text-[18px] leading-[18px]">{{ attack.title }}</p>
+													<p class="font-GillSansCn font-bold text-[18px] leading-[18px] tracking-wide">{{ attack.title }}</p>
 												</div>
-												<p class="font-GillSans font-semibold text-[17px] leading-[18px]">{{ attack.power }}</p>
+												<p class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter">{{ attack.power }}</p>
 											</div>
 											<p class="font-GillSans font-medium text-[10px]">{{ attack.description }}</p>
 										</div>
@@ -66,6 +66,11 @@
 								{# Image du pokemon #}
 								<div class="absolute top-[42px] left-[24px] border-black h-[156px] w-[252px] bg-white user-drag-none">
 									<img draggable='false' src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
+								</div>
+
+								{# Description de la carte #}
+								<div class="flex absolute z-20 bottom-[14px] right-[18px] w-[150px] h-[27px] text-right items-center">
+									<p class="font-Mitra font-medium text-[9px] leading-[9px] text-gray-700">{{ card.description }}</p>
 								</div>
 							</div>
 						</div>
@@ -87,25 +92,6 @@
 			{% endfor %}
 		</div>
 
-	</div>
-
-	<!-- Popup de confirmation -->
-	<div id="delete-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-		<div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-			<h2 class="text-xl font-semibold mb-4">Êtes-vous sûr de vouloir supprimer cette carte ?</h2>
-			<div class="flex justify-end gap-4">
-				<button id="cancel-delete" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-					Annuler
-				</button>
-				<!-- Formulaire de suppression -->
-				<form id="delete-form" method="POST" class="inline-block">
-					<input type="hidden" name="_token" value="">
-					<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-						Confirmer
-					</button>
-				</form>
-			</div>
-		</div>
 	</div>
 
 	<script>

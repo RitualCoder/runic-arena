@@ -27,7 +27,7 @@ class Card
     private ?CardType $type = null;
 
     #[ORM\Column]
-    private ?int $pv = null;
+    private ?int $hp = null;
 
     #[ORM\ManyToOne(inversedBy: 'cards')]
     private ?User $user = null;
@@ -90,14 +90,14 @@ class Card
         return $this;
     }
 
-    public function getPv(): ?int
+    public function getHp(): ?int
     {
-        return $this->pv;
+        return $this->hp;
     }
 
-    public function setPv(int $pv): static
+    public function setHp(int $hp): static
     {
-        $this->pv = $pv;
+        $this->hp = $hp;
 
         return $this;
     }

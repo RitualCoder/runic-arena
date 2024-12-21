@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         GillSans: ["GillSans", "sans-serif"],
         GillSansCn: ["GillSansCn", "sans-serif"],
+        Mitra: ["Mitra", "sans-serif"],
       },
       fontWeight: {
         medium: 500,
