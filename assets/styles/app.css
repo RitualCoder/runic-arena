@@ -63,12 +63,17 @@ body {
 
 .card {
   perspective: 1000px;
+  will-change: transform;
 }
 
 .card-content {
   transform-style: preserve-3d; /* Maintient l'effet 3D */
-  transition: transform 0.1s ease-out, box-shadow 0.3s ease-in-out; /* Ajout de la transition pour l'ombre */
+  transition: transform 0.4s ease-out, box-shadow 0.3s ease-in-out; /* Ajout de la transition pour l'ombre */
   border-radius: 20px;
+}
+
+.card:hover .holographic {
+  opacity: 1;
 }
 
 .card:hover .card-content {
@@ -95,4 +100,145 @@ body {
   box-shadow: 0 0 80px rgba(255, 255, 255, 0.4);
   transform: translate(-50%, -50%);
   transition: opacity 0.3s ease, transform 0.1s ease;
+}
+
+.holographic {
+  --mx: 50%;
+  --my: 50%;
+  --tx: 0px;
+  --ty: 0px;
+  --pos: 50% 50%;
+  --posx: 50%;
+  --posy: 50%;
+  --hyp: 0;
+
+  --red: #f80e7b;
+  --yel: #eedf10;
+  --gre: #21e985;
+  --blu: #0dbde9;
+  --vio: #c929f1;
+
+  --space: 1.5%;
+  --h: 21;
+  --s: 70%;
+  --l: 50%;
+  --bars: 4%;
+  --bar-color: rgba(255, 255, 255, 0.6);
+  --bar-bg: rgb(10, 10, 10);
+
+  transition: all 0.4s ease-out;
+
+  opacity: 0;
+
+  clip-path: inset(10% 8.5% 52.5% 8.5%);
+
+  background-image: repeating-linear-gradient(
+      90deg,
+      hsl(calc(var(--h) * 0), var(--s), var(--l)) calc(var(--space) * 0),
+      hsl(calc(var(--h) * 0), var(--s), var(--l)) calc(var(--space) * 1),
+      black calc(var(--space) * 1.001),
+      black calc(var(--space) * 1.999),
+      hsl(calc(var(--h) * 1), var(--s), var(--l)) calc(var(--space) * 2),
+      hsl(calc(var(--h) * 1), var(--s), var(--l)) calc(var(--space) * 3),
+      black calc(var(--space) * 3.001),
+      black calc(var(--space) * 3.999),
+      hsl(calc(var(--h) * 2), var(--s), var(--l)) calc(var(--space) * 4),
+      hsl(calc(var(--h) * 2), var(--s), var(--l)) calc(var(--space) * 5),
+      black calc(var(--space) * 5.001),
+      black calc(var(--space) * 5.999),
+      hsl(calc(var(--h) * 3), var(--s), var(--l)) calc(var(--space) * 6),
+      hsl(calc(var(--h) * 3), var(--s), var(--l)) calc(var(--space) * 7),
+      black calc(var(--space) * 7.001),
+      black calc(var(--space) * 7.999),
+      hsl(calc(var(--h) * 4), var(--s), var(--l)) calc(var(--space) * 8),
+      hsl(calc(var(--h) * 4), var(--s), var(--l)) calc(var(--space) * 9),
+      black calc(var(--space) * 9.001),
+      black calc(var(--space) * 9.999),
+      hsl(calc(var(--h) * 5), var(--s), var(--l)) calc(var(--space) * 10),
+      hsl(calc(var(--h) * 5), var(--s), var(--l)) calc(var(--space) * 11),
+      black calc(var(--space) * 11.001),
+      black calc(var(--space) * 11.999),
+      hsl(calc(var(--h) * 6), var(--s), var(--l)) calc(var(--space) * 12),
+      hsl(calc(var(--h) * 6), var(--s), var(--l)) calc(var(--space) * 13),
+      black calc(var(--space) * 13.001),
+      black calc(var(--space) * 13.999),
+      hsl(calc(var(--h) * 7), var(--s), var(--l)) calc(var(--space) * 14),
+      hsl(calc(var(--h) * 7), var(--s), var(--l)) calc(var(--space) * 15),
+      black calc(var(--space) * 15.001),
+      black calc(var(--space) * 15.999),
+      hsl(calc(var(--h) * 8), var(--s), var(--l)) calc(var(--space) * 16),
+      hsl(calc(var(--h) * 8), var(--s), var(--l)) calc(var(--space) * 17),
+      black calc(var(--space) * 17.001),
+      black calc(var(--space) * 17.999),
+      hsl(calc(var(--h) * 9), var(--s), var(--l)) calc(var(--space) * 18),
+      hsl(calc(var(--h) * 9), var(--s), var(--l)) calc(var(--space) * 19),
+      black calc(var(--space) * 19.001),
+      black calc(var(--space) * 19.999),
+      hsl(calc(var(--h) * 10), var(--s), var(--l)) calc(var(--space) * 20),
+      hsl(calc(var(--h) * 10), var(--s), var(--l)) calc(var(--space) * 21),
+      black calc(var(--space) * 21.001),
+      black calc(var(--space) * 21.999),
+      hsl(calc(var(--h) * 11), var(--s), var(--l)) calc(var(--space) * 22),
+      hsl(calc(var(--h) * 11), var(--s), var(--l)) calc(var(--space) * 23),
+      black calc(var(--space) * 23.001),
+      black calc(var(--space) * 23.999),
+      hsl(calc(var(--h) * 12), var(--s), var(--l)) calc(var(--space) * 24),
+      hsl(calc(var(--h) * 12), var(--s), var(--l)) calc(var(--space) * 25),
+      black calc(var(--space) * 25.001),
+      black calc(var(--space) * 25.999),
+      hsl(calc(var(--h) * 13), var(--s), var(--l)) calc(var(--space) * 26),
+      hsl(calc(var(--h) * 13), var(--s), var(--l)) calc(var(--space) * 27),
+      black calc(var(--space) * 27.001),
+      black calc(var(--space) * 27.999),
+      hsl(calc(var(--h) * 14), var(--s), var(--l)) calc(var(--space) * 28),
+      hsl(calc(var(--h) * 14), var(--s), var(--l)) calc(var(--space) * 29),
+      black calc(var(--space) * 29.001),
+      black calc(var(--space) * 29.999),
+      hsl(calc(var(--h) * 15), var(--s), var(--l)) calc(var(--space) * 30),
+      hsl(calc(var(--h) * 15), var(--s), var(--l)) calc(var(--space) * 31),
+      black calc(var(--space) * 31.001),
+      black calc(var(--space) * 31.999)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--vio),
+      var(--blu),
+      var(--gre),
+      var(--yel),
+      var(--red),
+      var(--vio)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--bar-bg) calc(var(--bars) * 2),
+      var(--bar-color) calc(var(--bars) * 3),
+      var(--bar-bg) calc(var(--bars) * 3.5),
+      var(--bar-color) calc(var(--bars) * 4),
+      var(--bar-bg) calc(var(--bars) * 5),
+      var(--bar-bg) calc(var(--bars) * 12)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--bar-bg) calc(var(--bars) * 2),
+      var(--bar-color) calc(var(--bars) * 3),
+      var(--bar-bg) calc(var(--bars) * 3.5),
+      var(--bar-color) calc(var(--bars) * 4),
+      var(--bar-bg) calc(var(--bars) * 5),
+      var(--bar-bg) calc(var(--bars) * 9)
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--mx) var(--my),
+      rgba(230, 230, 230, 0.85) 0%,
+      rgba(200, 200, 200, 0.1) 25%,
+      rgb(0, 0, 0) 90%
+    );
+
+  background-blend-mode: soft-light, soft-light, screen, overlay;
+  background-position: center, calc(((50% - var(--posx)) * 25) + 50%) center,
+    calc(var(--posx) * -1.2) var(--posy), var(--pos), center;
+  background-size: 100px 100px, 200% 200%, 237% 237%, 195% 195%, 120% 120%;
+
+  mix-blend-mode: color-dodge;
+
+  filter: brightness(calc((var(--hyp) + 0.7) * 0.7)) contrast(3) saturate(0.35);
 }
