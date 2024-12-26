@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Enum\CardCategory;
+use App\Enum\CardRarity;
 use App\Enum\CardType;
 use App\Repository\CardRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,6 +25,9 @@ class Card
 
     #[ORM\Column(enumType: CardType::class)]
     private ?CardType $type = null;
+
+    #[ORM\Column(enumType: CardRarity::class)]
+    private ?CardRarity $rarity = null;
 
     #[ORM\Column]
     private ?int $hp = null;
@@ -86,6 +89,18 @@ class Card
     public function setType(CardType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getRarity(): ?CardRarity
+    {
+        return $this->rarity;
+    }
+
+    public function setRarity(CardRarity $rarity): static
+    {
+        $this->rarity = $rarity;
 
         return $this;
     }
