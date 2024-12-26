@@ -40,7 +40,7 @@
 								</div>
 
 								{# Attaques de la carte #}
-								<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1 border">
+								<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
 									{% for attack in card.attacks %}
 										<div class="flex flex-col">
 											<div class="flex items-center justify-between w-[280px] align-baseline">
@@ -52,7 +52,7 @@
 															{% endfor %}
 														{% endif %}
 													</div>
-													<p class="font-GillSansCn font-bold text-[18px] leading-[18px] tracking-wide">{{ attack.title }}</p>
+													<p class="font-GillSans font-sem text-[18px] leading-[18px]">{{ attack.title }}</p>
 												</div>
 												<p class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter">{{ attack.power }}</p>
 											</div>
@@ -63,12 +63,12 @@
 
 
 								{# Description de la carte #}
-								<div class="flex absolute z-20 bottom-[16px] right-[18px] w-[160px] h-[32px] text-right items-center border overflow-hidden">
+								<div class="flex absolute z-20 bottom-[16px] right-[18px] w-[160px] h-[32px] text-right items-center overflow-hidden">
 									<p class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
 								</div>
 
 								{# Holographic effect #}
-								<div class="holographic absolute h-full w-full top-0 bg-transparent"></div>
+								<div class="basic-holo z-40 absolute h-full w-full top-0"></div>
 
 								<!-- Halo lumineux -->
 								<div class="halo absolute z-30 top-0 left-0 w-24 h-24 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -93,5 +93,7 @@
 
 	</div>
 
-	<script src="{{ asset('js/holographic.js') }}"></script>
+	<script src="{{ asset('js/rotator.js') }}"></script>
+	<script src="{{ asset('js/light.js') }}"></script>
+	<script src="{{ asset('js/shine-effects.js') }}"></script>
 {% endblock %}

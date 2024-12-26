@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Card;
 use App\Enum\CardCategory;
+use App\Enum\CardRarity;
 use App\Enum\CardType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,7 +38,18 @@ class CardFormType extends AbstractType
                 'placeholder' => 'Choisir...',
                 'required' => true,
             ])
-            
+
+            ->add('rarity', ChoiceType::class, [
+                'choices' => array_combine(
+                    array_map(fn($case) => ucfirst(strtolower($case->name)), CardRarity::cases()),
+                    CardRarity::cases()
+                ),
+                'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
+                'choice_value' => fn($choice) => $choice ? $choice->value : null,
+                'placeholder' => 'Choisir...',
+                'required' => true,
+            ])
+
             ->add('hp', TextType::class, [
                 'label' => 'Points de vie',
                 'attr' => [

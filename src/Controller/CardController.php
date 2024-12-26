@@ -11,8 +11,6 @@ use App\Form\CardFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Service\RandomNameGenerator;
-use App\Enum\CardType;
-use App\Form\AttackFormType;
 use App\Entity\Attack;
 
 class CardController extends AbstractController
@@ -31,8 +29,6 @@ class CardController extends AbstractController
 
         $user = $security->getUser();
         $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
-
-        dump($cards[0]->getAttacks());
 
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
