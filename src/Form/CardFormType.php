@@ -35,7 +35,6 @@ class CardFormType extends AbstractType
                 ),
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
                 'choice_value' => fn($choice) => $choice ? $choice->value : null,
-                'placeholder' => 'Choisir...',
                 'required' => true,
             ])
 
@@ -46,7 +45,6 @@ class CardFormType extends AbstractType
                 ),
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
                 'choice_value' => fn($choice) => $choice ? $choice->value : null,
-                'placeholder' => 'Choisir...',
                 'required' => true,
             ])
 
