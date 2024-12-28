@@ -48,8 +48,8 @@
             <p class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
         </div>
 
-        {# Holographic effect #}
-        <div class="z-40 absolute h-full w-full top-0 {{ card.rarity.value == 'rare' ? 'basic-holo' : '' }}"></div>
+        {# Shine effect #}
+        <div class="shine z-40 absolute h-full w-full top-0 {{ card.rarity.value == 'holo' ? 'basic-holo' : '' }}"></div>
 
         <!-- Halo lumineux -->
         <div class="halo absolute z-30 top-0 left-0 w-24 h-24 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -12,11 +12,13 @@
 			</a>
 		</div>
 
-		<div class="flex flex-wrap justify-center lg:justify-start gap-6">
+		<div class="flex flex-wrap justify-center gap-6">
 			{% for card in cards %}
-				<div class="p-1 relative block w-[350px]">
-					{% if card.rarity.value == 'ultra' %}
-						{% include '/components/ultra.html.twig' %}
+				<div class="card-container p-1 relative block w-[350px] h-[550px]">
+					{% if card.rarity.value == 'v' %}
+						{% include '/components/v.html.twig' %}
+					{% elseif card.rarity.value == 'gold' %}
+						{% include '/components/gold.html.twig' %}
 					{% else %}
 						{% include '/components/basic.html.twig' %}
 					{% endif %}
@@ -37,12 +39,15 @@
 
 	</div>
 
+	<!-- Effet de brillance au survol -->
+	<script src="js/shine-effects.js"></script>
+
 	<!-- Effet 3D de la carte au survol avec souris -->
-	<script src="{{ asset('js/rotator.js') }}"></script>
+	<script src="js/rotator.js"></script>
 
 	<!-- Effet de halo lumineux au survol -->
-	<script src="{{ asset('js/light.js') }}"></script>
+	<script src="js/light.js"></script>
 
-	<!-- Effet de brillance au survol -->
-	<script src="{{ asset('js/shine-effects.js') }}"></script>
+	<!-- Agrandissement de la carte au clique -->
+	<script src="js/expand.js"></script>
 {% endblock %}
