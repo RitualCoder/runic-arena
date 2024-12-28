@@ -7,13 +7,11 @@
 	<div class="container py-8 mx-auto">
 		<div class="flex justify-between items-center mb-6">
 			<h1 class="text-3xl font-futuraMedium">Mes cartes</h1>
-			<!-- Bouton pour créer une nouvelle carte -->
 			<a href="{{ path('app_card_create') }}" class="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600">
 				Créer une carte
 			</a>
 		</div>
 
-		<!-- Grid pour les cartes avec 3 cartes en desktop, 2 en tablette, et 1 en téléphone -->
 		<div class="flex flex-wrap justify-center lg:justify-start gap-6">
 			{% for card in cards %}
 				<div class="p-1 relative block w-[350px]">
@@ -39,7 +37,12 @@
 
 	</div>
 
+	<!-- Effet 3D de la carte au survol avec souris -->
 	<script src="{{ asset('js/rotator.js') }}"></script>
+
+	<!-- Effet de halo lumineux au survol -->
 	<script src="{{ asset('js/light.js') }}"></script>
+
+	<!-- Effet de brillance au survol -->
 	<script src="{{ asset('js/shine-effects.js') }}"></script>
 {% endblock %}
