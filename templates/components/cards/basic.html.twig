@@ -1,12 +1,12 @@
-<div class="card rounded-full">
-    <div class="card-content relative overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
+<div class="card">
+    <div class="card-content overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
 
         {# Type de la carte #}
         <img
-            src="/assets/template_cards/basic/{{ card.type.value }}.png"
+            src="/assets/template_cards/basic/{{ card.type.name|lower }}.png"
             alt="{{ card.type.value }}.png"
             class="relative z-10 w-full h-auto user-drag-none"
-        >
+        >   
 
         {# Nom de la carte #}
         <p class="absolute font-GillSans font-sem z-20 top-[11px] left-[68px] text-[23px]">{{ card.name }}</p>
@@ -30,7 +30,7 @@
                             <div class="flex w-[60px] items-center gap-[2px]">
                                 {% if attack.cost > 0 %}
                                     {% for i in 1..attack.cost %}
-                                        <img src="/assets/energies/{{ card.type.value }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px] rounded-full">
+                                        <img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px] rounded-full">
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -48,11 +48,7 @@
             <p class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
         </div>
 
-        {# Shine effect #}
-        <div class="shine z-40 absolute h-full w-full top-0 {{ card.rarity.value == 'holo' ? 'basic-holo' : '' }}"></div>
-
-        <!-- Halo lumineux -->
-        <div class="halo absolute z-30 top-0 left-0 w-24 h-24 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
+        {# Shine effects + glare #}
+        {% include '/components/card_effects.html.twig' with {'rarity': card.rarity.value == 'Holographique' ? 'basic-holo' : ''} %}
     </div>
 </div>

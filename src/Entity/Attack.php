@@ -23,7 +23,7 @@ class Attack
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'attacks')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Card $card = null;
 
     #[ORM\Column(nullable: true)]

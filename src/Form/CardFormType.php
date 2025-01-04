@@ -33,8 +33,8 @@ class CardFormType extends AbstractType
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardType::cases()),
                     CardType::cases()
                 ),
-                'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
-                'choice_value' => fn($choice) => $choice ? $choice->value : null,
+                'choice_label' => fn($choice) => ucfirst(strtolower($choice->value)),
+                'choice_value' => fn($choice) => $choice ? $choice->name : null,
                 'required' => true,
             ])
 
@@ -43,8 +43,8 @@ class CardFormType extends AbstractType
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardRarity::cases()),
                     CardRarity::cases()
                 ),
-                'choice_label' => fn($choice) => ucfirst(strtolower($choice->name)),
-                'choice_value' => fn($choice) => $choice ? $choice->value : null,
+                'choice_label' => fn($choice) => ucfirst(strtolower($choice->value)),
+                'choice_value' => fn($choice) => $choice ? $choice->name : null,
                 'required' => true,
             ])
 
@@ -73,9 +73,12 @@ class CardFormType extends AbstractType
                 'mapped' => true,
                 'required' => true,
             ])
-            // Sous-formulaire pour les attaques
+
             ->add('attacks', CollectionType::class, [
                 'entry_type' => AttackFormType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
             ]);
     }
