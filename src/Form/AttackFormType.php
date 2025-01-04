@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Attack;
-use App\Entity\Card;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,10 +14,17 @@ class AttackFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('power')
-            ->add('description')
+            ->add('title', null, [
+                'required' => false, // Le champ n'est pas obligatoire
+            ])
+            ->add('power', null, [
+                'required' => false, // Le champ n'est pas obligatoire
+            ])
+            ->add('description', null, [
+                'required' => false, // Le champ n'est pas obligatoire
+            ])
             ->add('cost', IntegerType::class, [
+                'required' => false, // Le champ n'est pas obligatoire
                 'constraints' => [
                     new Assert\Range([
                         'min' => 0,

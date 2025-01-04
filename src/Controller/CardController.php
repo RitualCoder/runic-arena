@@ -43,12 +43,6 @@ class CardController extends AbstractController
     {
         $card = new Card();
 
-        // Ajouter deux attaques au formulaire principal
-        $attack1 = new Attack();
-        $attack2 = new Attack();
-        $card->addAttack($attack1);
-        $card->addAttack($attack2);
-
         $form = $this->createForm(CardFormType::class, $card);
         $form->handleRequest($request);
 
@@ -68,6 +62,7 @@ class CardController extends AbstractController
     }
 
 
+
     #[Route('/card/{id}/edit', name: 'app_card_edit')]
     public function edit(int $id, Request $request, EntityManagerInterface $em): Response
     {
@@ -82,6 +77,7 @@ class CardController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($card);
             $em->flush();
 
             return $this->redirectToRoute('app_cards');

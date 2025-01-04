@@ -12,15 +12,9 @@
 			</a>
 		</div>
 
-		<div class="flex flex-wrap justify-center lg:justify-start gap-6">
+		<div class="flex flex-wrap justify-center gap-6">
 			{% for card in cards %}
-				<div class="p-1 relative block w-[350px]">
-					{% if card.rarity.value == 'ultra' %}
-						{% include '/components/ultra.html.twig' %}
-					{% else %}
-						{% include '/components/basic.html.twig' %}
-					{% endif %}
-
+				<div class="card-container p-1 block w-[350px] h-[550px]">
 					<div class="flex justify-between mt-4">
 						<a href="{{ path('app_card_edit', { id: card.id }) }}" class="text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">
 							Modifier
@@ -31,18 +25,24 @@
 							Supprimer
 						</button>
 					</div>
+					{% if card.rarity.value == 'V' %}
+						{% include '/components/cards/v.html.twig' %}
+					{% elseif card.rarity.value == 'Gold' %}
+						{% include '/components/cards/gold.html.twig' %}
+					{% else %}
+						{% include '/components/cards/basic.html.twig' %}
+					{% endif %}
 				</div>
 			{% endfor %}
+
+
 		</div>
 
 	</div>
 
 	<!-- Effet 3D de la carte au survol avec souris -->
-	<script src="{{ asset('js/rotator.js') }}"></script>
+	<script src="{{ asset('js/effects.js') }}"></script>
 
-	<!-- Effet de halo lumineux au survol -->
-	<script src="{{ asset('js/light.js') }}"></script>
-
-	<!-- Effet de brillance au survol -->
-	<script src="{{ asset('js/shine-effects.js') }}"></script>
+	<!-- Agrandissement de la carte au clique -->
+	<script src="{{ asset('js/expand.js') }}"></script>
 {% endblock %}
