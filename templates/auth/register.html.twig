@@ -1,68 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Runic - Register
+{% block title %}Runic - Inscription
 {% endblock %}
 
 {% block body %}
-	<div class="flex items-center justify-center min-h-screen bg-gray-100">
-		<div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-			<h1 class="text-2xl font-bold text-center">Register</h1>
+	<div
+		class="h-full w-full overflow-hidden relative">
+		<!-- Logo -->
+		<div class="absolute top-5 left-5 z-20">
+			<img src="/assets/logos/RunicLogo.png" alt="Runic Arena Logo" class="w-[150px]">
+		</div>
 
-			{{ form_start(registrationForm) }}
+		<!-- Carré jaune (fond) -->
+		<div class="absolute -top-[30%] right-[50%] h-[150%] w-[90%] bg-primary rotate-12 z-0"></div>
 
-			<div class="mb-4">
-				{{ form_label(registrationForm.username, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-				{{ form_widget(registrationForm.username, {
-                'attr': {
-                    'class': registrationForm.username.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
-                }
-            }) }}
-				{% if registrationForm.username.vars.errors|length > 0 %}
-					<p class="mt-1 text-sm text-red-500">
-						{{ form_errors(registrationForm.username) }}
-					</p>
-				{% endif %}
+		<!-- Rond jaune (fond) -->
+		<img
+		class="absolute -bottom-[40px] -right-[40px] h-[160px] z-0" src="/assets/forms/yellowRound.png" alt="yellow round">
+
+		<!-- Formulaire -->
+		<div class="flex items-center justify-center min-h-screen z-10 relative px-4 sm:px-6 md:px-8">
+			<div
+				class="w-full max-w-md p-8 space-y-6 bg-white border-[10px] border-primary rounded-[30px] relative z-10">
+
+				<!-- Points blancs (fond) -->
+				<img class='absolute -top-[30px] -left-[105px] h-[70px] z-0' src="/assets/forms/whiteDots.png" alt="white dots">
+
+				<h1 class="font-bold mb-6 text-center text-xl sm:text-3xl">Inscription</h1>
+
+				{{ form_start(registrationForm) }}
+
+				<!-- Pseudo -->
+				<div class="mb-6">
+					{{ form_label(registrationForm.username, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+					{{ form_widget(registrationForm.username, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out'}}) }}
+				</div>
+
+
+				<!-- Email -->
+				<div class="mb-6">
+					{{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+					{{ form_widget(registrationForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out'}}) }}
+				</div>
+
+				<!-- Password -->
+				<div class="mb-6">
+					{{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+					{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out'}}) }}
+				</div>
+
+				<div class="flex flex-col justify-center pt-8">
+					<button type="submit" class="cta-button">
+						S'inscrire
+					</button>
+					<a href="{{ path('app_login') }}" class="text-secondary hover:underline text-center text-sm mt-3">
+						Se connecter
+					</a>
+				</div>
+
+				{{ form_end(registrationForm) }}
 			</div>
-
-			<div class="mb-4">
-				{{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-				{{ form_widget(registrationForm.email, {
-                'attr': {
-                    'class': registrationForm.email.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
-                }
-            }) }}
-				{% if registrationForm.email.vars.errors|length > 0 %}
-					<p class="mt-1 text-sm text-red-500">
-						{{ form_errors(registrationForm.email) }}
-					</p>
-				{% endif %}
-			</div>
-
-			<div class="mb-4">
-				{{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-				{{ form_widget(registrationForm.plainPassword, {
-                'attr': {
-                    'class': registrationForm.plainPassword.vars.errors|length > 0 ? 'w-full p-2 border border-red-500 rounded-md focus:outline-none focus:ring focus:ring-red-300' : 'w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300'
-                }
-            }) }}
-				{% if registrationForm.plainPassword.vars.errors|length > 0 %}
-					<p class="mt-1 text-sm text-red-500">
-						{{ form_errors(registrationForm.plainPassword) }}
-					</p>
-				{% endif %}
-			</div>
-
-			<div class="flex items-center mb-4">
-				{{ form_row(registrationForm.agreeTerms, {
-                'label': false,
-                'attr': {'class': 'mr-2'}
-            }) }}
-				<label for="{{ registrationForm.agreeTerms.vars.id }}" class="text-sm">I agree to the terms</label>
-			</div>
-
-			<button type="submit" class="w-full py-2 mt-4 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Register</button>
-
-			{{ form_end(registrationForm) }}
 		</div>
 	</div>
 {% endblock %}

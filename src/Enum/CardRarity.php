@@ -4,8 +4,8 @@ namespace App\Enum;
 
 enum CardRarity: string
 {
-    case BASIC = 'Basique';
-    case HOLO = 'Holographique';
+    case BASIC = 'Basic';
+    case HOLO = 'Holographic';
     case V = 'V';
     case GOLD = 'Gold';
     case TRAINER = 'Trainer';

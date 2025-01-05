@@ -30,8 +30,6 @@ class CardController extends AbstractController
         $user = $security->getUser();
         $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
 
-        dump($cards);
-
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
         ]);

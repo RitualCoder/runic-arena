@@ -1,0 +1,24 @@
+<div
+	class="flex w-full justify-between items-center py-4 px-8 relative">
+	<!-- Logo -->
+	<div class="z-20">
+		<a href="{{ path('home') }}">
+			<img src="/assets/logos/RunicLogo.png" alt="Runic Arena Logo" class="w-[150px]">
+		</a>
+	</div>
+
+	<!-- Vérification si l'utilisateur est connecté -->
+	<div class="flex flex-col justify-center">
+		{% if app.user %}
+			<!-- Si l'utilisateur est connecté, afficher un lien vers son profil ou déconnexion -->
+			<a href="{{ path('app_logout') }}" class="cta-button">
+				Se déconnecter
+			</a>
+		{% else %}
+			<!-- Si l'utilisateur n'est pas connecté, afficher le bouton de connexion -->
+			<a href="{{ path('app_login') }}" class="cta-button">
+				Se connecter
+			</a>
+		{% endif %}
+	</div>
+</div>
