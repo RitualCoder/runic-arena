@@ -13,6 +13,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CardFormType extends AbstractType
 {
@@ -20,14 +22,15 @@ class CardFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la carte',
+                'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Entrez un nom',
+                    'maxlength' => 12,
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                 ],
                 'mapped' => true,
                 'required' => true,
             ])
-
             ->add('type', ChoiceType::class, [
                 'choices' => array_combine(
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardType::cases()),
@@ -36,9 +39,12 @@ class CardFormType extends AbstractType
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->value)),
                 'choice_value' => fn($choice) => $choice ? $choice->name : null,
                 'required' => true,
+                'attr' => [
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                ],
             ])
-
             ->add('rarity', ChoiceType::class, [
+                'label' => 'Rareté',
                 'choices' => array_combine(
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardRarity::cases()),
                     CardRarity::cases()
@@ -46,42 +52,53 @@ class CardFormType extends AbstractType
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->value)),
                 'choice_value' => fn($choice) => $choice ? $choice->name : null,
                 'required' => true,
+                'attr' => [
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                ],
             ])
-
             ->add('hp', TextType::class, [
                 'label' => 'Points de vie',
                 'attr' => [
                     'placeholder' => 'Entrez un nombre',
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                    'maxlength' => 3,  // Limite à 3 caractères
+                    'pattern' => '^[1-9][0-9]{0,2}$', // Regular expression to allow only numbers between 1 and 999
                 ],
                 'mapped' => true,
                 'required' => true,
             ])
-
             ->add('imageFile', FileType::class, [
-                'label' => 'Image de la carte (PNG, JPG)',
+                'label' => 'Image (PNG, JPG)',
                 'required' => false,
                 'mapped' => true,
                 'attr' => [
                     'accept' => 'image/*',
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                 ],
             ])
-            ->add('description', TextType::class, [
-                'label' => 'Description de la carte',
-                'attr' => [
-                    'placeholder' => 'Entrez une description',
-                ],
-                'mapped' => true,
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
                 'required' => true,
+                'attr' => [
+                    'readonly' => false,
+                    'rows' => 3,
+                    'maxlength' => 120,
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                    'style' => 'resize: none; white-space: pre-wrap;',
+                ],
             ])
 
+            // Ajoutez la collection d'attaques
             ->add('attacks', CollectionType::class, [
-                'entry_type' => AttackFormType::class,
+                'label' => false,
+                'entry_type' => AttackFormType::class, // Le type de formulaire pour chaque attaque
                 'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+                'allow_add' => true, // Permet d'ajouter dynamiquement des attaques
+                'by_reference' => false, // Assurez-vous que les attaques sont traitées comme des entités distinctes
+                'prototype' => true, // Permet de générer un prototype d'attaque
             ]);
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

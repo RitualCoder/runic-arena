@@ -1,90 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Conteneur des attaques
-  const attackContainer = document.querySelector(".mb-4 .grid");
-
-  // Bouton d'ajout
-  const addAttackButton = document.createElement("button");
-  addAttackButton.textContent = "Ajouter une attaque";
-  addAttackButton.classList.add(
-    "bg-green-500",
-    "text-white",
-    "px-4",
-    "py-2",
-    "rounded",
-    "hover:bg-green-600",
-    "transition",
-    "duration-200",
-    "ease-in-out",
-    "mt-4"
-  );
-  attackContainer.after(addAttackButton);
-
-  // Récupération du prototype (fourni par Symfony)
-  const prototype = attackContainer.getAttribute("data-prototype");
-  let attackIndex = attackContainer.children.length;
-  // Nombre d'attaques existantes
-
-  // Fonction pour ajouter une nouvelle attaque
-  const addAttack = () => {
-    const newForm = prototype.replace(/__name__/g, attackIndex);
-    const attackDiv = document.createElement("div");
-    attackDiv.classList.add(
-      "flex",
-      "flex-col",
-      "space-y-4",
-      "rounded-lg",
-      "shadow-sm",
-      "bg-transparent",
-      "px-10"
-    );
-    attackDiv.innerHTML = newForm;
-
-    // Bouton de suppression
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Supprimer cette attaque";
-    removeButton.classList.add(
-      "bg-red-500",
-      "text-white",
-      "px-4",
-      "py-2",
-      "rounded",
-      "hover:bg-red-600",
-      "transition",
-      "duration-200",
-      "ease-in-out",
-      "mt-4"
-    );
-    removeButton.addEventListener("click", () => attackDiv.remove());
-
-    attackDiv.appendChild(removeButton);
-    attackContainer.appendChild(attackDiv);
-
-    attackIndex++;
-  };
-
-  // Ajouter une nouvelle attaque au clic sur le bouton
-  addAttackButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    addAttack();
-  });
-
-  // Ajouter des boutons de suppression pour les attaques existantes
-  attackContainer.querySelectorAll(".flex").forEach((attackDiv) => {
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Supprimer cette attaque";
-    removeButton.classList.add(
-      "bg-red-500",
-      "text-white",
-      "px-4",
-      "py-2",
-      "rounded",
-      "hover:bg-red-600",
-      "transition",
-      "duration-200",
-      "ease-in-out",
-      "mt-4"
-    );
-    removeButton.addEventListener("click", () => attackDiv.remove());
-    attackDiv.appendChild(removeButton);
-  });
+document.querySelectorAll(".add_item_link").forEach((btn) => {
+  btn.addEventListener("click", addFormToCollection);
 });
+
+function addFormToCollection(e) {
+  const collectionHolder = document.querySelector(
+    "." + e.currentTarget.dataset.collectionHolderClass
+  );
+
+  // Vérifier le nombre d'attaques déjà ajoutées
+  const currentCount = collectionHolder.querySelectorAll("li").length;
+
+  // Limiter à 2 attaques
+  if (currentCount >= 2) {
+    return; // Ne pas ajouter de nouvelle attaque
+  }
+
+  const item = document.createElement("li");
+
+  // Remplacer __name__ dans le prototype par l'index dynamique
+  item.innerHTML = collectionHolder.dataset.prototype.replace(
+    /__name__/g,
+    collectionHolder.dataset.index
+  );
+
+  collectionHolder.appendChild(item);
+  collectionHolder.dataset.index++;
+
+  // Désactiver le bouton si 2 attaques sont ajoutées
+  if (currentCount + 1 >= 2) {
+    e.currentTarget.style.display = "none"; // Masquer le bouton "Ajouter une attaque"
+  }
+}
+
+function toggleAddButton(collectionHolder) {
+  const currentCount = collectionHolder.querySelectorAll("li").length;
+  const addButton = document.querySelector(".add_item_link");
+
+  // Afficher le bouton si moins de 2 attaques
+  if (currentCount < 2) {
+    addButton.style.display = "block";
+  }
+}

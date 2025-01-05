@@ -4,16 +4,16 @@
 
 		{# Type de la carte #}
 		<img
-		src="/assets/template_cards/gold.webp" alt="v.png" class="relative z-10 w-full h-auto user-drag-none">
+		src="/assets/template_cards/gold.webp" alt="gold.png" class="relative z-10 w-full h-auto user-drag-none">
 
 		{# Nom de la carte #}
 		<div class="absolute flex items-center font-GillSans font-sem z-20 top-[14px] left-[68px] text-[23px] h-[30px] text-stroke line">
-			<p class="leading-none">{{ card.name }}</p>
+			<p id="card-name-display" class="leading-none">{{ card.name }}</p>
 		</div>
 
 		{# PV #}
 		<p class="absolute font-GillSans font-bold z-20 top-[12px] right-[45px] text-[8px] tracking-tighter text-black text-stroke">PV
-			<span class="text-[23px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
+			<span id="card-hp-display" class="text-[23px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
 		</p>
 
 		{# Energie #}
@@ -25,12 +25,14 @@
 
 		{# Image du pokemon #}
 		<div class="absolute top-0 p-[12px] border-black h-full w-full bg-transparent user-drag-none">
-			<img draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
+			<img id="card-image" draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
 		<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
+			{% set index = 0 %}
 			{% for attack in card.attacks %}
+				{% set index = index + 1 %}
 				<div class="flex flex-col">
 					<div class="flex items-center justify-between w-[280px] align-baseline">
 						<div class="flex items-center gap-6">
@@ -43,11 +45,11 @@
 									{% endfor %}
 								{% endif %}
 							</div>
-							<p class="font-GillSans font-sem text-[18px] leading-[18px] text-stroke">{{ attack.title }}</p>
+							<p id="card-attack{{index}}-title-display" class="font-GillSans font-sem text-[18px] leading-[18px] text-stroke">{{ attack.title }}</p>
 						</div>
-						<p class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter text-stroke">{{ attack.power }}</p>
+						<p id="card-attack{{index}}-damage-display" class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter text-stroke">{{ attack.power }}</p>
 					</div>
-					<p class="font-GillSans font-medium text-[10px] text-stroke">{{ attack.description }}</p>
+					<p id="card-attack{{index}}-description-display" class="font-GillSans font-medium text-[10px] text-stroke">{{ attack.description }}</p>
 				</div>
 			{% endfor %}
 		</div>

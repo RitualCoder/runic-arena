@@ -10,10 +10,28 @@
 	<!-- Vérification si l'utilisateur est connecté -->
 	<div class="flex flex-col justify-center">
 		{% if app.user %}
-			<!-- Si l'utilisateur est connecté, afficher un lien vers son profil ou déconnexion -->
-			<a href="{{ path('app_logout') }}" class="cta-button">
-				Se déconnecter
-			</a>
+			<div>
+				{% if app.request.attributes.get('_route') == 'app_cards' %}
+					<a href="/card/create">
+						<button class="cta-button">
+							Créer une carte
+						</button>
+					</a>
+				{% else %}
+					<a href="/cards">
+						<button class="cta-button">
+							Mes cartes
+						</button>
+					</a>
+				{% endif %}
+				<!-- Si l'utilisateur est connecté, afficher un lien vers son profil ou déconnexion -->
+				<a href="{{ path('app_logout') }}">
+					<button class="cta-button">
+						Se déconnecter
+					</button>
+				</a>
+			</div>
+
 		{% else %}
 			<!-- Si l'utilisateur n'est pas connecté, afficher le bouton de connexion -->
 			<a href="{{ path('app_login') }}" class="cta-button">

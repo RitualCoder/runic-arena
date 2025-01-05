@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div
+		class="flex flex-col items-center justify-center h-screen text-gray-700">
+		<!-- Code d'erreur 404 -->
+		<h1 class="text-9xl font-extrabold text-gray-900 mb-4">404</h1>
+
+		<!-- Titre -->
+		<h2 class="text-2xl font-semibold mb-4">Page introuvable</h2>
+
+		<!-- Message -->
+		<p class="text-lg mb-6 text-gray-600">Désolé, la page que vous essayez d'accéder n'existe pas ...</p>
+
+		<!-- Bouton retour à l'accueil -->
+		<a href="{{ path('home') }}" class="px-6 py-3 cta-button text-xl">
+			Page d'accueil
+		</a>
+	</div>
+{% endblock %}

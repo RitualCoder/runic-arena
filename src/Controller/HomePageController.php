@@ -14,9 +14,9 @@ class HomePageController extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         // Récupère la première carte en fonction de la date de création
-        $showcaseCard = $em->getRepository(Card::class)->findOneBy([], ['updatedAt' => 'ASC']);
+        $showcaseCard = $em->getRepository(Card::class)->findOneBy([], ['createdAt' => 'ASC']);
 
-        $threeLastCards = $em->getRepository(Card::class)->findBy([], ['updatedAt' => 'DESC'], 3);
+        $threeLastCards = $em->getRepository(Card::class)->findBy([], ['createdAt' => 'DESC'], 3);
 
         return $this->render('index.html.twig', [
             'showcaseCard' => $showcaseCard,

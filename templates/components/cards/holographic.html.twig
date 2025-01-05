@@ -9,7 +9,6 @@
 		{# Nom de la carte #}
 		<p id="card-name-display" class="absolute font-GillSans font-sem z-20 top-[11px] left-[68px] text-[23px]">{{ card.name }}</p>
 
-
 		{# PV #}
 		<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[46px] text-[8px] tracking-tighter">PV
 			<span id="card-hp-display" class="text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
@@ -46,10 +45,10 @@
 
 		{# Description de la carte #}
 		<div class="flex absolute z-20 bottom-[16px] right-[18px] w-[160px] h-[32px] text-right items-center overflow-hidden">
-			<p class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
+			<p id="card-description-display" class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
 		</div>
 
 		{# Shine effects + glare #}
-		{% include '/components/card_effects.html.twig' with {'rarity': ''} %}
+		{% include '/components/card_effects.html.twig' with {'rarity': 'basic-holo'} %}
 	</div>
 </div>

@@ -6,8 +6,8 @@ use App\Entity\Attack;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AttackFormType extends AbstractType
 {
@@ -15,27 +15,39 @@ class AttackFormType extends AbstractType
     {
         $builder
             ->add('title', null, [
-                'required' => false, // Le champ n'est pas obligatoire
+                'label' => 'Titre',
+                'required' => true,
+                'attr' => [
+                    'maxlength' => 15,
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                ]
             ])
             ->add('power', null, [
-                'required' => false, // Le champ n'est pas obligatoire
+                'label' => 'Puissance',
+                'required' => true,
+                'attr' => [
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                    'min' => 0,
+                    'max' => 999,
+                    'step' => 10,
+                ]
             ])
-            ->add('description', null, [
-                'required' => false, // Le champ n'est pas obligatoire
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => true,
+                'attr' => [
+                    'readonly' => false,
+                    'rows' => 2,
+                    'maxlength' => 150,
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
+                    'style' => 'resize: none; white-space: pre-wrap;',
+                ],
             ])
             ->add('cost', IntegerType::class, [
-                'required' => false, // Le champ n'est pas obligatoire
-                'constraints' => [
-                    new Assert\Range([
-                        'min' => 0,
-                        'max' => 4,
-                        'notInRangeMessage' => 'Le coût doit être compris entre {{ min }} et {{ max }}.',
-                    ]),
-                ],
+                'label' => 'Coût',
+                'required' => true,
                 'attr' => [
-                    'min' => 0,
-                    'max' => 4,
-                    'class' => 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+                    'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                 ]
             ]);
     }

@@ -1,18 +1,18 @@
-// Fonction pour arrondir les valeurs à 2 décimales
-const round = (value) => Math.round(value * 100) / 100;
+function initializeCardInteractions(card) {
+  const setDefaultValues = (effects) => {
+    // Initialiser les variables CSS avec les valeurs par défaut
+    effects.style.setProperty("--mx", `50%`);
+    effects.style.setProperty("--my", `50%`);
+    effects.style.setProperty("--hyp", "0");
+    effects.style.setProperty("--pos", `50% 50%`);
+    effects.style.setProperty("--posx", `50%`);
+    effects.style.setProperty("--posy", `50%`);
+    effects.style.setProperty("--op", `0`);
+  };
 
-const setDefaultValues = (effects) => {
-  // Initialiser les variables CSS avec les valeurs par défaut
-  effects.style.setProperty("--mx", `50%`);
-  effects.style.setProperty("--my", `50%`);
-  effects.style.setProperty("--hyp", "0");
-  effects.style.setProperty("--pos", `50% 50%`);
-  effects.style.setProperty("--posx", `50%`);
-  effects.style.setProperty("--posy", `50%`);
-  effects.style.setProperty("--op", `0`);
-};
+  // Fonction pour arrondir les valeurs à 2 décimales
+  const round = (value) => Math.round(value * 100) / 100;
 
-document.querySelectorAll(".card").forEach((card) => {
   const cardContent = card.querySelector(".card-content");
   const shine = card.querySelector(".shine");
   const effects = card.querySelector(".effects");
@@ -102,4 +102,8 @@ document.querySelectorAll(".card").forEach((card) => {
       effects.style.setProperty("--op", `0`);
     }, 400);
   });
+}
+
+document.querySelectorAll(".card").forEach((card) => {
+  initializeCardInteractions(card);
 });
