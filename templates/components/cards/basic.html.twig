@@ -1,52 +1,52 @@
-<div class="card">
+<div id='card-basic' class="card {% if display is defined and not display %} hidden {% endif %}">
 	<div
 		class="card-content overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
 
 		{# Type de la carte #}
 		<img
-		src="/assets/template_cards/basic/{{ card.type.name|lower }}.png" alt="{{ card.type.value }}.png" class="relative z-10 w-full h-auto user-drag-none">
+		src="/assets/template_cards/basic/{{ card.type.name|lower }}.png" alt="{{ card.type.value }}.png" class="card-type relative z-10 w-full h-auto user-drag-none">
 
 		{# Nom de la carte #}
-		<p id="card-name-display" class="absolute font-GillSans font-sem z-20 top-[11px] left-[68px] text-[23px]">{{ card.name }}</p>
+		<p class="card-name absolute font-GillSans font-sem z-20 top-[11px] left-[68px] text-[23px]">{{ card.name }}</p>
 
 
 		{# PV #}
 		<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[46px] text-[8px] tracking-tighter">PV
-			<span id="card-hp-display" class="text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
+			<span class="card-hp text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
 		</p>
 
 		{# Image du pokemon #}
 		<div class="absolute top-[43px] left-[25px] border-black h-[183px] w-[290px] bg-transparent user-drag-none">
-			<img id="card-image" draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
+			<img draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="card-img h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
-		<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
+		<div class="attack-content-basic flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
 			{% set index = 0 %}
 			{% for attack in card.attacks %}
 				{% set index = index + 1 %}
-				<div class="flex flex-col">
-					<div class="flex items-center justify-between w-[280px] align-baseline">
+				<div class="flex flex-col w-full">
+					<div class="flex justify-between w-full align-baseline">
 						<div class="flex items-center gap-6">
-							<div class="flex w-[60px] items-center gap-[2px]">
+							<div class="energies-{{index}} flex w-[60px] items-center gap-[2px]" data-energy="{{ card.type.name|lower }}">
 								{% if attack.cost > 0 %}
 									{% for i in 1..attack.cost %}
-										<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px] rounded-full">
+										<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="atk-energy w-[17.5px] h-[17.5px] rounded-full">
 									{% endfor %}
 								{% endif %}
 							</div>
-							<p id="card-attack{{index}}-title-display" class="font-GillSans font-sem text-[18px] leading-[18px]">{{ attack.title }}</p>
+							<p class="card-atk{{index}}-title font-GillSans font-sem text-[18px] leading-[18px]">{{ attack.title }}</p>
 						</div>
-						<p id="card-attack{{index}}-damage-display" class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter">{{ attack.power }}</p>
+						<p class="card-atk{{index}}-damage font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter">{{ attack.power }}</p>
 					</div>
-					<p id="card-attack{{index}}-description-display" class="font-GillSans font-medium text-[10px]">{{ attack.description }}</p>
+					<p class="card-atk{{index}}-description font-GillSans font-medium text-[10px] mt-1 break-words leading-none">{{ attack.description }}</p>
 				</div>
 			{% endfor %}
 		</div>
 
 		{# Description de la carte #}
 		<div class="flex absolute z-20 bottom-[16px] right-[18px] w-[160px] h-[32px] text-right items-center overflow-hidden">
-			<p class="w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
+			<p class="card-description w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
 		</div>
 
 		{# Shine effects + glare #}

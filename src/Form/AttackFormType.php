@@ -18,6 +18,7 @@ class AttackFormType extends AbstractType
                 'label' => 'Titre',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Entrez un titre',
                     'maxlength' => 15,
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                 ]
@@ -26,6 +27,7 @@ class AttackFormType extends AbstractType
                 'label' => 'Puissance',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Entrez une puissance',
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                     'min' => 0,
                     'max' => 999,
@@ -36,6 +38,7 @@ class AttackFormType extends AbstractType
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Entrez une description',
                     'readonly' => false,
                     'rows' => 2,
                     'maxlength' => 150,
@@ -47,6 +50,9 @@ class AttackFormType extends AbstractType
                 'label' => 'Coût',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Entrez un coût',
+                    'min' => 0,
+                    'max' => 4,
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                 ]
             ]);

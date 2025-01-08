@@ -17,6 +17,10 @@ function initializeCardInteractions(card) {
   const shine = card.querySelector(".shine");
   const effects = card.querySelector(".effects");
 
+  if (!cardContent || !shine || !effects) {
+    return;
+  }
+
   setDefaultValues(effects);
 
   cardContent.addEventListener("mouseenter", () => {
@@ -104,6 +108,10 @@ function initializeCardInteractions(card) {
   });
 }
 
-document.querySelectorAll(".card").forEach((card) => {
-  initializeCardInteractions(card);
-});
+function setupInteractions() {
+  document.querySelectorAll(".card").forEach((card) => {
+    initializeCardInteractions(card);
+  });
+}
+
+setupInteractions();

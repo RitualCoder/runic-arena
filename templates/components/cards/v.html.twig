@@ -1,4 +1,4 @@
-<div class="card rounded-full">
+<div id='card-v' class="card rounded-full {% if display is defined and not display %} hidden {% endif %}">
 	<div
 		class="card-content relative overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
 
@@ -8,13 +8,13 @@
 
 		{# Nom de la carte #}
 		<div class="absolute w-[165px] overflow-hidden flex items-center font-GillSans font-sem z-20 top-[14px] left-[68px] text-[23px] h-[30px] text-stroke line">
-			<p id="card-name-display" class="leading-none">{{ card.name }}</p>
+			<p class="card-name leading-none">{{ card.name }}</p>
 			<img src="/assets/icons/v.webp" class="h-[25px]" alt="v-icon">
 		</div>
 
 		{# PV #}
 		<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[48px] text-[8px] tracking-tighter text-white">PV
-			<span id="card-hp-display" class="text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
+			<span class="card-hp text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
 		</p>
 
 		{# Energie #}
@@ -24,31 +24,31 @@
 
 		{# Image du pokemon #}
 		<div class="absolute top-0 p-[12px] border-black h-full w-full bg-transparent user-drag-none">
-			<img id="card-image" draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="h-full w-full object-cover">
+			<img draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="card-img h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
-		<div class="flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
+		<div class="attack-content-v flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1" data-energy="{{ card.type.name|lower }}">
 			{% set index = 0 %}
 			{% for attack in card.attacks %}
 				{% set index = index + 1 %}
-				<div class="flex flex-col">
-					<div class="flex items-center justify-between w-[280px] align-baseline">
+				<div class="flex flex-col w-full">
+					<div class="flex justify-between w-full align-baseline">
 						<div class="flex items-center gap-6">
-							<div class="flex w-[80px] items-center gap-[2px]">
+							<div class="energies-{{index}} flex w-[80px] items-center gap-[2px]">
 								{% if attack.cost > 0 %}
 									{% for i in 1..attack.cost %}
 										<div class="relative w-[17.5px] h-[17.5px] rounded-full bg-white flex justify-center items-center">
-											<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="w-[17.5px] h-[17.5px] rounded-full">
+											<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="atk-energy w-[17.5px] h-[17.5px] rounded-full">
 										</div>
 									{% endfor %}
 								{% endif %}
 							</div>
-							<p id="card-attack{{index}}-title-display" class="font-GillSans font-sem text-[18px] leading-[18px] text-stroke">{{ attack.title }}</p>
+							<p class="card-atk{{index}}-title font-GillSans font-sem text-[18px] leading-[18px] text-stroke">{{ attack.title }}</p>
 						</div>
-						<p id="card-attack{{index}}-damage-display" class="font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter text-stroke">{{ attack.power }}</p>
+						<p class="card-atk{{index}}-damage font-GillSans font-semibold text-[17px] leading-[18px] tracking-tighter text-stroke">{{ attack.power }}</p>
 					</div>
-					<p id="card-attack{{index}}-description-display" class="font-GillSans font-medium text-[10px] text-stroke">{{ attack.description }}</p>
+					<p class="card-atk{{index}}-description font-GillSans font-medium text-[10px] text-stroke mt-1 break-words leading-none">{{ attack.description }}</p>
 				</div>
 			{% endfor %}
 		</div>
@@ -66,7 +66,7 @@
 		{# Retraite #}
 		<div class="absolute flex z-20 bottom-[54.5px] left-[210px] text-[7px] items-center overflow-hidden gap-1">
 			<p class="text-white">Retraite</p>
-			<img src="/assets/energies/normal.png" alt="energy.png" class="w-[12px] h-[12px] rounded-full">
+			<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="w-[12px] h-[12px] rounded-full">
 		</div>
 
 		{# Illustration #}
