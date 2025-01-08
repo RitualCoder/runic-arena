@@ -77,6 +77,8 @@ function updateAtkCost(index) {
 
   const energyContainers = document.querySelectorAll(`.energies-${index}`);
 
+  console.log("bor : ", energyContainers);
+
   const cardContentV = document.querySelector(".attack-content-v");
   const type = cardContentV.dataset?.energy || "normal";
 
@@ -109,12 +111,7 @@ function updateAtkCost(index) {
           container.appendChild(newEnergy);
         }
       } else if (currentCount > cost) {
-        // Supprimer des énergies si nécessaire
-        for (let i = currentCount - 1; i >= cost; i--) {
-          if (container.contains(currentEnergies[i])) {
-            container.removeChild(currentEnergies[i]);
-          }
-        }
+        container.removeChild(container.firstElementChild);
       }
     });
   });
