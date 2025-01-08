@@ -17,11 +17,11 @@
 
 		{# Image du pokemon #}
 		<div class="absolute top-[43px] left-[25px] border-black h-[183px] w-[290px] bg-transparent user-drag-none">
-			<img draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="card-img h-full w-full object-cover">
+			<img draggable="false" src="{{ (card.imagePath ? asset('images/cards/' ~ card.imagePath) : '/assets/backgrounds/runicBg.jpg') }}" alt="Image carte" class="card-img h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
-		<div class="attack-content-basic flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
+		<div class="attack-content-basic flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1" data-energy="{{ card.type.name|lower }}">
 			{% set index = 0 %}
 			{% for attack in card.attacks %}
 				{% set index = index + 1 %}

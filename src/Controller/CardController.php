@@ -11,6 +11,8 @@ use App\Form\CardFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Service\RandomNameGenerator;
+use App\Enum\CardRarity;
+use App\Enum\CardType;
 
 class CardController extends AbstractController
 {
@@ -61,18 +63,23 @@ class CardController extends AbstractController
     {
         $card = new Card();
 
-        // Crée le formulaire de la carte, avec une collection d'attaques
+        // Initialisation des valeurs par défaut
+        $card->setName('');
+        $card->setDescription('');
+        $card->setHp(0);
+        $card->setRarity(CardRarity::BASIC);
+        $card->setType(CardType::NORMAL);
+
         $formCard = $this->createForm(CardFormType::class, $card);
 
-        // Traitement du formulaire
         $formCard->handleRequest($request);
 
         if ($formCard->isSubmitted() && $formCard->isValid()) {
-            // Récupérer l'utilisateur connecté
+            // Récupération de l'utilisateur connecté
             $user = $security->getUser();
             $card->setUser($user);
 
-            // Sauvegarder la carte
+            // Sauvegarde de la carte
             $em->persist($card);
             $em->flush();
 
@@ -83,21 +90,18 @@ class CardController extends AbstractController
             }
             $em->flush();
 
-            // Redirection après la soumission
             return $this->redirectToRoute('app_cards');
         }
 
         return $this->render('card/create.html.twig', [
             'formCard' => $formCard->createView(),
+            'card' => $card,
         ]);
     }
-
-
 
     #[Route('/card/{id}/edit', name: 'app_card_edit')]
     public function edit(int $id, Request $request, EntityManagerInterface $em): Response
     {
-        // Chercher explicitement la carte
         $card = $em->getRepository(Card::class)->find($id);
 
         if (!$card) {

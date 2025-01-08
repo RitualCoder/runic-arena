@@ -36,6 +36,7 @@ class CardFormType extends AbstractType
                     array_map(fn($case) => ucfirst(strtolower($case->name)), CardType::cases()),
                     CardType::cases()
                 ),
+                'data' => CardType::NORMAL,
                 'choice_label' => fn($choice) => ucfirst(strtolower($choice->value)),
                 'choice_value' => fn($choice) => $choice ? $choice->name : null,
                 'required' => true,
@@ -58,6 +59,7 @@ class CardFormType extends AbstractType
             ])
             ->add('hp', TextType::class, [
                 'label' => 'Points de vie',
+                'data' => 0,
                 'attr' => [
                     'placeholder' => 'Entrez un nombre',
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
@@ -80,6 +82,7 @@ class CardFormType extends AbstractType
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Entrez une description',
                     'readonly' => false,
                     'rows' => 3,
                     'maxlength' => 120,

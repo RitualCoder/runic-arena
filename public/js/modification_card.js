@@ -77,11 +77,6 @@ function updateAtkCost(index) {
 
   const energyContainers = document.querySelectorAll(`.energies-${index}`);
 
-  console.log("bor : ", energyContainers);
-
-  const cardContentV = document.querySelector(".attack-content-v");
-  const type = cardContentV.dataset?.energy || "normal";
-
   if (!energyInput) {
     return;
   }
@@ -89,6 +84,9 @@ function updateAtkCost(index) {
   energyInput.value = energyInput.value || 0;
 
   energyInput.addEventListener("input", function () {
+    const cardContent = document.querySelector(".attack-content-basic");
+
+    let type = cardContent.dataset?.energy || "normal";
     let cost = parseInt(energyInput.value, 10) || 0;
 
     energyContainers.forEach((container) => {
@@ -100,7 +98,7 @@ function updateAtkCost(index) {
         for (let i = currentCount; i < cost; i++) {
           const newEnergy = document.createElement("img");
 
-          newEnergy.src = `/assets/energies/${type}.png`;
+          newEnergy.src = `/assets/energies/${type || "normal"}.png`;
           newEnergy.alt = "energy.png";
           newEnergy.classList.add(
             "atk-energy",
@@ -126,8 +124,7 @@ function initializeCardEvents() {
   }
 
   let rarity;
-  const energyContainers = document.querySelectorAll(".energies");
-  let type = energyContainers[0]?.dataset.energy || "normal";
+  const cardContent = document.querySelector(".attack-content-basic");
 
   // NOM //
   const inputName = document.getElementById("card_form_name");
@@ -160,7 +157,7 @@ function initializeCardEvents() {
     const newBackgroundSrc = `/assets/template_cards/basic/${selectedType}.png`; // Créer le chemin de l'image
     const newEnergySrc = `/assets/energies/${selectedType}.png`;
 
-    type = selectedType;
+    cardContent.dataset.energy = selectedType;
 
     cardBackgroundType.forEach(function (typeImage) {
       typeImage.src = newBackgroundSrc;
@@ -231,9 +228,7 @@ function initializeCardEvents() {
   }
 
   // Coût
-  if (energyContainers && type) {
-    updateAtkCost(1);
-  }
+  updateAtkCost(1);
 
   // ATTAQUE 2 //
   // titre
@@ -257,9 +252,7 @@ function initializeCardEvents() {
   }
 
   // Côut
-  if (energyContainers && type) {
-    updateAtkCost(2);
-  }
+  updateAtkCost(2);
 
   // RARETÉ //
   const cardHolo = document.getElementById("card-holo");

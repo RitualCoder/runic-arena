@@ -41,7 +41,7 @@
 				</div>
 
 				{% if showcaseCard %}
-					<div class="w-1/3 flex justify-center items-center h-full">
+					<div class="flex flex-1 justify-center items-center h-full">
 						<div class="card-container p-1 w-[350px] h-auto">
 							{% include '/components/cards/' ~ showcaseCard.rarity.name|lower ~ '.html.twig' with {'card': showcaseCard} %}
 						</div>

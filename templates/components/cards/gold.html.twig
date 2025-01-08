@@ -24,8 +24,8 @@
 		</div>
 
 		{# Image du pokemon #}
-		<div class="absolute top-0 p-[12px] border-black h-full w-full bg-transparent user-drag-none">
-			<img draggable="false" src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="card-img h-full w-full object-cover">
+		<div class="absolute top-0 p-[12px] h-full w-full bg-transparent user-drag-none">
+			<img draggable="false" src="{{ (card.imagePath ? asset('images/cards/' ~ card.imagePath) : '/assets/backgrounds/runicBg.jpg') }}" alt="Image carte" class="card-img h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
