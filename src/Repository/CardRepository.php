@@ -16,28 +16,25 @@ class CardRepository extends ServiceEntityRepository
         parent::__construct($registry, Card::class);
     }
 
-//    /**
-//     * @return Card[] Returns an array of Card objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function countCardsByRarity(): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c.rarity, COUNT(c.id) as rarityCount')
+            ->groupBy('c.rarity')
+            ->getQuery()
+            ->getResult();
 
-//    public function findOneBySomeField($value): ?Card
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $qb;
+    }
+
+    public function countCardsByType(): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c.type, COUNT(c.id) as typeCount')
+            ->groupBy('c.type')
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
 }
