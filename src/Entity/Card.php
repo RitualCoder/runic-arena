@@ -41,9 +41,6 @@ class Card
     #[Vich\UploadableField(mapping: 'card_images', fileNameProperty: 'imagePath')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
     /**
      * @var Collection<int, Attack>
      */
@@ -59,8 +56,15 @@ class Card
     #[ORM\Column(nullable: true)]
     private ?float $size = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->attacks = new ArrayCollection();
     }
 
@@ -157,18 +161,6 @@ class Card
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Attack>
      */
@@ -232,6 +224,29 @@ class Card
     {
         $this->size = $size;
 
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 }

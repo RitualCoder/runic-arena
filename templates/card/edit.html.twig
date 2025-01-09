@@ -1,125 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer ou Modifier une Carte
+{% block title %}Modifier votre carte
 {% endblock %}
 
 {% block body %}
-<div class="container mx-auto py-8">
-	<h1 class="text-3xl font-bold mb-6 text-center">Modifier votre carte</h1>
+	<div
+		class="flex flex-col h-[100vh] w-full relative overflow-hidden">
+		<!-- Carré jaune (fond) -->
+		<div class="absolute right-0 h-full w-[33%] bg-primary z-[-1]"></div>
+		<!-- Rond blanc (fond) -->
+		<img
+		src="/assets/forms/whiteRound.png" alt="Rond blanc" class="absolute bottom-[-50px] right-[-50px] h-[200px] -rotate-6 z-[-1]">
+		<!-- Points jaune (fond) -->
+		<img src="/assets/forms/yellowDots.png" alt="Points jaune" class="absolute top-[-50px] left-[40%] h-[110px] z-[0]">
 
-	<form method="post" enctype="multipart/form-data" class="bg-transparent">
-		{{ form_start(form) }}
 
+		{% include 'components/navbar.html.twig' %}
 		<div
-			class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			class="flex flex-1 relative z-10">
+			<!-- Formulaire -->
+			<div class="w-2/3 p-4 pl-0 flex flex-col items-center h-[calc(100vh-86px)] overflow-hidden overflow-y-auto">
+				<h1 class="text-3xl font-bold mb-6">Modifier votre carte</h1>
 
 
-			<!-- Partie formulaire -->
-			<div
-				class="flex flex-col space-y-4 px-10">
-				<!-- Champ Nom de la carte -->
-				<div class="">
-					{{ form_label(form.name, 'Nom de la carte', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-					{{ form_widget(form.name, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
-					{{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+				<div class="flex flex-col gap-4 w-[70%] max-w-[700px] min-w-[300px]">
+					{{ form_start(form) }}
+					{{ form_row(form.name) }}
+					{{ form_row(form.type) }}
+					{{ form_row(form.rarity) }}
+					{{ form_row(form.hp) }}
+					{{ form_row(form.imageFile) }}
+					{{ form_row(form.description) }}
+
+					<!-- Section pour les attaques -->
+					<div class="mt-6">
+						<h2 class="text-center text-xl font-medium">Attaques</h2>
+
+						<!-- Affichage des attaques -->
+						<ul class="attacks" data-index="{{ form.attacks|length > 0 ? form.attacks|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.attacks.vars.prototype)|e('html_attr') }}">
+							{% for attack in form.attacks %}
+								<li class="attack-item my-4">
+									<h3 class="text-xl">Attaque
+										{{ loop.index }}</h3>
+									{{ form_row(attack.title) }}
+									{{ form_row(attack.power) }}
+									{{ form_row(attack.description) }}
+									{{ form_row(attack.cost) }}
+								</li>
+							{% endfor %}
+						</ul>
+
+						<!-- Bouton d'ajout d'attaque, désactivé si 2 attaques sont déjà ajoutées -->
+						{% if form.attacks|length < 2 %}
+							<div class="flex justify-center mt-3">
+								<button type="button" class="add_item_link cta-button cta-button--add" data-collection-holder-class="attacks">
+									Ajouter une attaque
+								</button>
+							</div>
+						{% endif %}
+					</div>
+
+					<!-- Bouton de soumission aligné à droite -->
+					<div class="flex justify-end mt-6">
+						<button type="submit" class="cta-button">Modifier ma carte</button>
+					</div>
+
+					{{ form_end(form) }}
 				</div>
 
-				<!-- Champ Type de la carte -->
-				<div class="mb-4">
-					{{ form_label(form.type, 'Type de la carte', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-					{{ form_widget(form.type, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
-					{{ form_errors(form.type, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-				</div>
 
-				<!-- Champ Puissance (HP) -->
-				<div class="mb-4">
-					{{ form_label(form.hp, 'Point de vie', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-					{{ form_widget(form.hp, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
-					{{ form_errors(form.hp, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-				</div>
-
-				<!-- Champ Description -->
-				<div class="mb-4">
-					{{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-					{{ form_widget(form.description, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
-					{{ form_errors(form.description, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-				</div>
 			</div>
-			<!-- Partie image -->
-			<div class="flex flex-col justify-center items-center">
-				<div class="w-full max-w-xs">
-					{% if card.imagePath %}
-						<p class=" text-sm mb-2">Image actuelle :</p>
-						<img src="{{ asset('images/cards/' ~ card.imagePath) }}" alt="Image carte" class="max-w-full rounded border">
-					{% endif %}
-				</div>
-				<!-- Champ Image -->
-				<div class="mb-4">
 
-					{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2'}}) }}
-					{{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+			<!-- Carte -->
+			<div class="w-1/3 p-4 flex justify-center items-center h-full">
+				<div id="card-test" class="card-container p-1 w-[350px] h-auto min-w-[350px]" data-card-type-value="{{ card.rarity.name|lower }}" data-card-id-value="{{ card.id }}">
+					{% include '/components/cards/basic.html.twig' with {'card': card, 'display': card.rarity.name == 'BASIC'} %}
+					{% include '/components/cards/holographic.html.twig' with {'card': card, 'display': card.rarity.name == 'HOLOGRAPHIC'} %}
+					{% include '/components/cards/gold.html.twig' with {'card': card, 'display': card.rarity.name == 'GOLD'} %}
+					{% include '/components/cards/v.html.twig' with {'card': card, 'display': card.rarity.name == 'V'} %}
 				</div>
 			</div>
 		</div>
+	</div>
 
-		{# Divider #}
-		<hr
-		class="border border-gray-400 my-10 px-10">
+	<!-- Effet 3D de la carte au survol avec souris -->
+	<script src="{{ asset('js/effects.js') }}"></script>
+
+	<script src="{{ asset('js/modification_card.js') }}"></script>
+
+	<script src="{{ asset('js/add_attacks.js') }}"></script>
+
+	<script src="{{ asset('js/expand.js') }}"></script>
 
 
-		<!-- Sous-formulaire pour les attaques -->
-		<div class="mb-4">
-			{% set index = 0 %}
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{% for attackForm in form.attacks %}
-					{% set index = index + 1 %}
-					<div class="flex flex-col space-y-4 rounded-lg shadow-sm bg-transparent px-10">
-						<h2 class="text-white text-xl mb-1">Attaque
-							{{ index }}</h2>
-
-						<!-- Champ Title -->
-						<div class="mb-4">
-							{{ form_label(attackForm.title, 'Nom de l\'attaque', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-							{{ form_widget(attackForm.title, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-							{{ form_errors(attackForm.title, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-            			</div>
-
-						<!-- Champ Power -->
-						<div class="mb-4">
-							{{ form_label(attackForm.power, 'Puissance', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-							{{ form_widget(attackForm.power, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-							{{ form_errors(attackForm.power, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-						</div>
-
-						<!-- Champ Description -->
-						<div class="mb-4">
-							{{ form_label(attackForm.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-							{{ form_widget(attackForm.description, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-							{{ form_errors(attackForm.description, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-						</div>
-
-						<!-- Champs Cost -->
-						<div class="mb-4">
-							{{ form_label(attackForm.cost, 'Coût', {'label_attr': {'class': 'block text-sm font-medium text-white mb-1'}}) }}
-							{{ form_widget(attackForm.cost, {'attr': {'class': 'w-full px-4 py-2 border border-gray-400 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-							{{ form_errors(attackForm.cost, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-        </div>
-
-        <!-- Boutons -->
-        <div class="flex justify-end gap-4 mt-6">
-            <a href="{{ path('app_cards') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200 ease-in-out">
-                Annuler
-            </a>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ease-in-out">
-                Sauvegarder
-            </button>
-        </div>
-
-        {{ form_end(form) }}
-    </form>
-</div>
 {% endblock %}

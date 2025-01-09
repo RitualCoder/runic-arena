@@ -11,7 +11,8 @@ use App\Form\CardFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Service\RandomNameGenerator;
-use App\Entity\Attack;
+use App\Enum\CardRarity;
+use App\Enum\CardType;
 
 class CardController extends AbstractController
 {
@@ -23,14 +24,33 @@ class CardController extends AbstractController
         $this->randomNameGenerator = $randomNameGenerator;
     }
 
+    #[Route('/card/rarity/{rarity}/{id}', name: 'app_card_rarity', methods: ['GET'])]
+    public function getRarityBlock(string $rarity, int $id, EntityManagerInterface $em): Response
+    {
+        // Récupérer la carte par son ID
+        $card = $em->getRepository(Card::class)->find($id);
+
+        // Passer les données au template
+        return $this->render('/components/cards/' . strtolower($rarity) . '.html.twig', [
+            'card' => $card,
+        ]);
+    }
+
+
+
     #[Route('/cards', name: 'app_cards')]
     public function index(EntityManagerInterface $em, Security $security): Response
     {
-
         $user = $security->getUser();
-        $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
 
-        dump($cards);
+        // Vérifiez si l'utilisateur a le rôle ROLE_ADMIN
+        if ($security->isGranted('ROLE_ADMIN')) {
+            // L'utilisateur admin peut voir toutes les cartes
+            $cards = $em->getRepository(Card::class)->findAll();
+        } else {
+            // Les autres utilisateurs ne voient que leurs propres cartes
+            $cards = $em->getRepository(Card::class)->findBy(['user' => $user]);
+        }
 
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
@@ -43,30 +63,45 @@ class CardController extends AbstractController
     {
         $card = new Card();
 
-        $form = $this->createForm(CardFormType::class, $card);
-        $form->handleRequest($request);
+        // Initialisation des valeurs par défaut
+        $card->setName('');
+        $card->setDescription('');
+        $card->setHp(0);
+        $card->setRarity(CardRarity::BASIC);
+        $card->setType(CardType::NORMAL);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formCard = $this->createForm(CardFormType::class, $card);
+
+        $formCard->handleRequest($request);
+
+        if ($formCard->isSubmitted() && $formCard->isValid()) {
+            // Récupération de l'utilisateur connecté
             $user = $security->getUser();
             $card->setUser($user);
 
+            // Sauvegarde de la carte
             $em->persist($card);
+            $em->flush();
+
+            // Associer les attaques à la carte et les enregistrer
+            foreach ($card->getAttacks() as $attack) {
+                $attack->setCard($card);
+                $em->persist($attack);
+            }
             $em->flush();
 
             return $this->redirectToRoute('app_cards');
         }
 
         return $this->render('card/create.html.twig', [
-            'form' => $form->createView(),
+            'formCard' => $formCard->createView(),
+            'card' => $card,
         ]);
     }
-
-
 
     #[Route('/card/{id}/edit', name: 'app_card_edit')]
     public function edit(int $id, Request $request, EntityManagerInterface $em): Response
     {
-        // Chercher explicitement la carte
         $card = $em->getRepository(Card::class)->find($id);
 
         if (!$card) {
@@ -99,10 +134,11 @@ class CardController extends AbstractController
             throw $this->createAccessDeniedException('Vous n\'avez pas le droit de supprimer cette carte.');
         }
 
+        // Supprimer la carte
         $em->remove($card);
         $em->flush();
 
-        // Redirigez l'utilisateur vers la liste des cartes
+        // Rediriger l'utilisateur vers la liste des cartes
         return $this->redirectToRoute('app_cards');
     }
 

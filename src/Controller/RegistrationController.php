@@ -25,25 +25,35 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        $error = null;
+
+        // Vérification si l'email est déjà pris
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
+            $email = $form->get('email')->getData();
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-            $user->setRoles(['ROLE_USER']);
+            if ($existingUser) {
+                // L'email est déjà pris, donc on crée une erreur
+                $error = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
+            } else {
+                $plainPassword = $form->get('plainPassword')->getData();
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+                $user->setRoles(['ROLE_USER']);
 
-            $security->login($user, 'form_login', 'main');
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+                $security->login($user, 'form_login', 'main');
+
+                return $this->redirectToRoute('home');
+            }
         }
 
         return $this->render('auth/register.html.twig', [
-            'title' => 'Runic - Register',
+            'title' => 'Runic - Inscription',
             'registrationForm' => $form,
+            'error' => $error,
         ]);
     }
 }

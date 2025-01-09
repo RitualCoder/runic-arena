@@ -1,4 +1,4 @@
-<div id='card-basic' class="card {% if display is defined and not display %} hidden {% endif %}">
+<div id='card-holo' class="card {% if display is defined and not display %} hidden {% endif %}">
 	<div
 		class="card-content overflow-hidden {% if card.type.value == 'dark' %} text-white {% else %} text-black {% endif %}">
 
@@ -9,19 +9,18 @@
 		{# Nom de la carte #}
 		<p class="card-name absolute font-GillSans font-sem z-20 top-[11px] left-[68px] text-[23px]">{{ card.name }}</p>
 
-
 		{# PV #}
 		<p class="absolute font-GillSans font-bold z-20 top-[7px] right-[46px] text-[8px] tracking-tighter">PV
 			<span class="card-hp text-[28px] font-GillSans font-sem tracking-tighter">{{ card.hp }}</span>
 		</p>
 
 		{# Image du pokemon #}
-		<div class="absolute top-[43px] left-[25px] border-black h-[183px] w-[290px] bg-transparent user-drag-none">
+		<div class="absolute top-[43px] left-[25px] h-[183px] w-[290px] bg-black user-drag-none z-0">
 			<img draggable="false" src="{{ (card.imagePath ? asset('images/cards/' ~ card.imagePath) : '/assets/backgrounds/runicBg.jpg') }}" alt="Image carte" class="card-img h-full w-full object-cover">
 		</div>
 
 		{# Attaques de la carte #}
-		<div class="attack-content-basic flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1" data-energy="{{ card.type.name|lower }}">
+		<div class="attack-content-holo flex justify-center flex-col gap-3 items-center absolute z-20 bottom-[74px] left-[24px] h-[160px] w-[295px] p-1">
 			{% set index = 0 %}
 			{% for attack in card.attacks %}
 				{% set index = index + 1 %}
@@ -50,6 +49,6 @@
 		</div>
 
 		{# Shine effects + glare #}
-		{% include '/components/card_effects.html.twig' with {'rarity': ''} %}
+		{% include '/components/card_effects.html.twig' with {'rarity': 'basic-holo'} %}
 	</div>
 </div>

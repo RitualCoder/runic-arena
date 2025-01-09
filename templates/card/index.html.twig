@@ -4,41 +4,39 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container py-8 mx-auto">
-		<div class="flex justify-between items-center mb-6">
-			<h1 class="text-3xl font-futuraMedium">Mes cartes</h1>
-			<a href="{{ path('app_card_create') }}" class="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600">
-				Créer une carte
-			</a>
-		</div>
+	<div
+		class="h-screen flex flex-col items-center z-10 relative overflow-hidden min-w-[500px]">
+		<!-- Carré jaune (fond) -->
+		<div class="absolute -top-[30%] left-[50%] h-[150%] w-[90%] bg-primary rotate-12 z-0"></div>
 
-		<div class="flex flex-wrap justify-center gap-6">
-			{% for card in cards %}
-				<div class="card-container p-1 block w-[350px] h-[550px]">
-					<div class="flex justify-between mt-4">
-						<a href="{{ path('app_card_edit', { id: card.id }) }}" class="text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">
-							Modifier
-						</a>
+		<!-- Navbar -->
+		{% include 'components/navbar.html.twig' %}
 
-						<!-- Bouton pour afficher la popup -->
-						<button data-card-id="{{ card.id }}" data-csrf-token="{{ csrf_token('delete_card_' ~ card.id) }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 show-delete-popup">
-							Supprimer
-						</button>
+		<!-- Contenu principal -->
+		<div
+			class="flex items-center w-full flex-grow p-6 !pt-0 sm:p-8 md:p-10 relative z-10">
+			<!-- Conteneur avec hauteur fixe et scrolling activé -->
+			<div class="flex flex-wrap p-10 justify-center gap-16 w-full h-[calc(100vh-120px)] border-[10px] rounded-[30px] border-primary bg-white overflow-y-auto no-scrollbar">
+				{% for card in cards %}
+					<div class="card-container p-1 block w-[350px] h-[550px] mb-5">
+						{% include '/components/cards/' ~ card.rarity.name|lower ~ '.html.twig' %}
+						<div class="flex justify-center mt-4 gap-5">
+							<a href="{{ path('app_card_edit', { id: card.id }) }}" class="cta-button text-sm">
+								Modifier
+							</a>
+							<form action="{{ path('app_card_delete', {'id': card.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette carte ?');">
+								<button type="submit" class="cta-button cta-button--delete text-sm bg-red-500!">
+									Supprimer
+								</button>
+							</form>
+						</div>
 					</div>
-					{% if card.rarity.value == 'V' %}
-						{% include '/components/cards/v.html.twig' %}
-					{% elseif card.rarity.value == 'Gold' %}
-						{% include '/components/cards/gold.html.twig' %}
-					{% else %}
-						{% include '/components/cards/basic.html.twig' %}
-					{% endif %}
-				</div>
-			{% endfor %}
-
-
+				{% endfor %}
+			</div>
 		</div>
 
 	</div>
+
 
 	<!-- Effet 3D de la carte au survol avec souris -->
 	<script src="{{ asset('js/effects.js') }}"></script>

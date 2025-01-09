@@ -1,10 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!
+{% block title %}Admin
 {% endblock %}
 
 {% block body %}
-	<div class="example-wrapper">
-		DASHBOARD ADMIN
+	<div
+		class="h-screen flex flex-col items-center z-10 relative overflow-hidden min-w-[320px]">
+		<!-- Carré jaune (fond) -->
+		<div class="absolute -top-[30%] left-[50%] h-[155%] w-[90%] bg-primary rotate-12 z-0"></div>
+
+		<!-- Navbar -->
+		{% include 'components/navbar.html.twig' %}
+
+		<!-- Contenu principal -->
+		<div class="flex items-center w-full flex-grow p-6 !pt-0 sm:p-8 md:p-10 lg:p-12 xl:p-16 relative z-10">
+			<div class="flex flex-col pt-5 w-full h-[calc(100dvh-120px)] border-[10px] rounded-[30px] border-primary bg-white">
+				<h1 class="text-2xl sm:text-3xl mb-4 ml-5">Dashboard administrateur</h1>
+
+				<div class="flex flex-col w-full h-full pb-4 items-center gap-10 overflow-auto no-scrollbar">
+					<div class='flex flex-col w-full justify-center items-center'>
+						<h3 class="text-xl sm:text-2xl">Nombre total des cartes</h3>
+						<div class="text-3xl sm:text-4xl text-white bg-primary px-3 py-1 rounded-lg">
+							{{ totalCards }}
+						</div>
+					</div>
+
+					<div class="flex flex-col md:flex-row gap-10 w-full justify-center items-center">
+						<div class="flex flex-col gap-5 items-center">
+							<h2 class="text-lg sm:text-xl">Répartition des cartes par rareté</h2>
+							<div class="flex max-w-[300px] max-h-[300px] overflow-hidden">
+								{{ render_chart(chartRarity) }}
+							</div>
+						</div>
+						<div class="flex flex-col gap-5 items-center">
+							<h2 class="text-lg sm:text-xl">Répartition des cartes par type</h2>
+							<div class="flex max-w-[300px] max-h-[300px] overflow-hidden">
+								{{ render_chart(chartType) }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
+
 {% endblock %}
