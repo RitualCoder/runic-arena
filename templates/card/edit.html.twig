@@ -5,42 +5,55 @@
 
 {% block body %}
 	<div
-		class="flex flex-col h-[100vh] w-full relative overflow-hidden">
-		<!-- Carré jaune (fond) -->
-		<div class="absolute right-0 h-full w-[33%] bg-primary z-[-1]"></div>
-		<!-- Rond blanc (fond) -->
+		class="flex flex-col h-fit md:h-[100vh] w-full relative overflow-hidden">
+
+		<!--  Carré jaune (fond) -->
+		<div class="absolute top-0 right-0 h-[620px] w-full md:w-[33%] md:h-full bg-primary z-[-1]"></div>
+
+		<!--  Rond blanc (fond) -->
 		<img
-		src="/assets/forms/whiteRound.png" alt="Rond blanc" class="absolute bottom-[-50px] right-[-50px] h-[200px] -rotate-6 z-[-1]">
-		<!-- Points jaune (fond) -->
-		<img src="/assets/forms/yellowDots.png" alt="Points jaune" class="absolute top-[-50px] left-[40%] h-[110px] z-[0]">
+		src="/assets/forms/whiteRound.png" alt="Rond blanc" class="absolute top-[300px] md:bottom-[-50px] md:top-auto right-[-50px] h-[200px] -rotate-6 z-[-1]">
+
+		<!--  Points jaune (fond) -->
+		<img src="/assets/forms/yellowDots.png" alt="Points jaune" class="absolute bottom-[-20px] left-[-20px] md:top-[-50px] md:left-[40%] h-[110px] z-[0]">
 
 
 		{% include 'components/navbar.html.twig' %}
 		<div
-			class="flex flex-1 relative z-10">
-			<!-- Formulaire -->
-			<div class="w-2/3 p-4 pl-0 flex flex-col items-center h-[calc(100vh-86px)] overflow-hidden overflow-y-auto">
-				<h1 class="text-3xl font-bold mb-6">Modifier votre carte</h1>
+			class="flex flex-1 pb-8 relative z-10 flex-col md:flex-row">
 
+			<!-- Carte -->
+			<div class="order-1 md:order-2 w-full md:w-1/3 p-4 flex justify-center items-center h-auto md:h-full">
+				<div id="card-test" class="card-container p-1 w-[350px] h-auto min-w-[350px]" data-card-type-value="{{ card.rarity.name|lower }}" data-card-id-value="{{ card.id }}">
+					{% include '/components/cards/basic.html.twig' with {'card': card, 'display': card.rarity.name == 'BASIC'} %}
+					{% include '/components/cards/holographic.html.twig' with {'card': card, 'display': card.rarity.name == 'HOLOGRAPHIC'} %}
+					{% include '/components/cards/gold.html.twig' with {'card': card, 'display': card.rarity.name == 'GOLD'} %}
+					{% include '/components/cards/v.html.twig' with {'card': card, 'display': card.rarity.name == 'V'} %}
+				</div>
+			</div>
+
+			<!-- Formulaire -->
+			<div class="order-2 md:order-1 mt-10 md:mt-0 w-full md:w-2/3 p-4 pl-0 flex flex-col items-center h-auto md:h-[calc(100vh-86px)] overflow-hidden overflow-y-auto">
+				<h1 class="text-3xl font-bold mb-6">Créer votre carte</h1>
 
 				<div class="flex flex-col gap-4 w-[70%] max-w-[700px] min-w-[300px]">
-					{{ form_start(form) }}
-					{{ form_row(form.name) }}
-					{{ form_row(form.type) }}
-					{{ form_row(form.rarity) }}
-					{{ form_row(form.hp) }}
-					{{ form_row(form.imageFile) }}
-					{{ form_row(form.description) }}
+					{{ form_start(formCard) }}
+					{{ form_row(formCard.name) }}
+					{{ form_row(formCard.type) }}
+					{{ form_row(formCard.rarity) }}
+					{{ form_row(formCard.hp) }}
+					{{ form_row(formCard.imageFile) }}
+					{{ form_row(formCard.description) }}
 
 					<!-- Section pour les attaques -->
 					<div class="mt-6">
-						<h2 class="text-center text-xl font-medium">Attaques</h2>
+						<h2 class="text-center text-xl">Attaques</h2>
 
 						<!-- Affichage des attaques -->
-						<ul class="attacks" data-index="{{ form.attacks|length > 0 ? form.attacks|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.attacks.vars.prototype)|e('html_attr') }}">
-							{% for attack in form.attacks %}
+						<ul class="attacks" data-index="{{ formCard.attacks|length > 0 ? formCard.attacks|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formCard.attacks.vars.prototype)|e('html_attr') }}">
+							{% for attack in formCard.attacks %}
 								<li class="attack-item my-4">
-									<h3 class="text-xl">Attaque
+									<h3 class="text-lg">Attaque
 										{{ loop.index }}</h3>
 									{{ form_row(attack.title) }}
 									{{ form_row(attack.power) }}
@@ -51,45 +64,38 @@
 						</ul>
 
 						<!-- Bouton d'ajout d'attaque, désactivé si 2 attaques sont déjà ajoutées -->
-						{% if form.attacks|length < 2 %}
+						{% if formCard.attacks|length < 2 %}
 							<div class="flex justify-center mt-3">
 								<button type="button" class="add_item_link cta-button cta-button--add" data-collection-holder-class="attacks">
-									Ajouter une attaque
+									+ Ajouter une attaque
 								</button>
 							</div>
 						{% endif %}
 					</div>
 
 					<!-- Bouton de soumission aligné à droite -->
-					<div class="flex justify-end mt-6">
-						<button type="submit" class="cta-button">Modifier ma carte</button>
+					<div class="flex justify-end mt-10 md:mt-6">
+						<button type="submit" class="cta-button">Créer ma carte</button>
 					</div>
 
-					{{ form_end(form) }}
+					{{ form_end(formCard) }}
 				</div>
-
 
 			</div>
 
-			<!-- Carte -->
-			<div class="w-1/3 p-4 flex justify-center items-center h-full">
-				<div id="card-test" class="card-container p-1 w-[350px] h-auto min-w-[350px]" data-card-type-value="{{ card.rarity.name|lower }}" data-card-id-value="{{ card.id }}">
-					{% include '/components/cards/basic.html.twig' with {'card': card, 'display': card.rarity.name == 'BASIC'} %}
-					{% include '/components/cards/holographic.html.twig' with {'card': card, 'display': card.rarity.name == 'HOLOGRAPHIC'} %}
-					{% include '/components/cards/gold.html.twig' with {'card': card, 'display': card.rarity.name == 'GOLD'} %}
-					{% include '/components/cards/v.html.twig' with {'card': card, 'display': card.rarity.name == 'V'} %}
-				</div>
-			</div>
 		</div>
 	</div>
 
-	<!-- Effet 3D de la carte au survol avec souris -->
+	<!-- Effets 3D de la carte -->
 	<script src="{{ asset('js/effects.js') }}"></script>
 
+	<!-- Modification dynamique de la carte -->
 	<script src="{{ asset('js/modification_card.js') }}"></script>
 
+	<!-- Permet d'ajouter dynamiquement des attaques -->
 	<script src="{{ asset('js/add_attacks.js') }}"></script>
 
+	<!-- Agrandi la carte au clique -->
 	<script src="{{ asset('js/expand.js') }}"></script>
 
 

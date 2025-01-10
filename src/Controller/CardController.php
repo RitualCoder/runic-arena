@@ -18,25 +18,10 @@ class CardController extends AbstractController
 {
     private $randomNameGenerator;
 
-    // Injection du service RandomNameGenerator
     public function __construct(RandomNameGenerator $randomNameGenerator)
     {
         $this->randomNameGenerator = $randomNameGenerator;
     }
-
-    #[Route('/card/rarity/{rarity}/{id}', name: 'app_card_rarity', methods: ['GET'])]
-    public function getRarityBlock(string $rarity, int $id, EntityManagerInterface $em): Response
-    {
-        // Récupérer la carte par son ID
-        $card = $em->getRepository(Card::class)->find($id);
-
-        // Passer les données au template
-        return $this->render('/components/cards/' . strtolower($rarity) . '.html.twig', [
-            'card' => $card,
-        ]);
-    }
-
-
 
     #[Route('/cards', name: 'app_cards')]
     public function index(EntityManagerInterface $em, Security $security): Response
@@ -63,7 +48,7 @@ class CardController extends AbstractController
     {
         $card = new Card();
 
-        // Initialisation des valeurs par défaut
+        // Initialisation des valeurs de la carte par défaut
         $card->setName('');
         $card->setDescription('');
         $card->setHp(0);
@@ -119,7 +104,7 @@ class CardController extends AbstractController
         }
 
         return $this->render('card/edit.html.twig', [
-            'form' => $form->createView(),
+            'formCard' => $form->createView(),
             'card' => $card,
         ]);
     }
@@ -142,6 +127,7 @@ class CardController extends AbstractController
         return $this->redirectToRoute('app_cards');
     }
 
+    // Injection du service RandomNameGenerator
     #[Route('/generate-card-name', name: 'generate_card_name', methods: ['GET'])]
     public function generateName(): Response
     {

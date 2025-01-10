@@ -7,35 +7,37 @@
 		</a>
 	</div>
 
-	<!-- Vérification si l'utilisateur est connecté -->
-	<div class="flex justify-center gap-4 sm:flex-col md:flex-row sm:items-start md:items-center">
-		{% if app.user %}
-			<div class="flex gap-4">
-				{% if app.request.attributes.get('_route') == 'app_cards' %}
-					<a href="/card/create">
+	<!-- Vérification si l'utilisateur est connecté et si la route n'est pas app_register ou app_login -->
+	{% if app.request.attributes.get('_route') not in ['app_register', 'app_login'] %}
+		<div class="flex justify-center gap-4 sm:flex-col md:flex-row sm:items-start md:items-center">
+			{% if app.user %}
+				<div class="flex gap-4">
+					{% if app.request.attributes.get('_route') == 'app_cards' %}
+						<a href="/card/create">
+							<button class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
+								Créer une carte
+							</button>
+						</a>
+					{% else %}
+						<a href="/cards">
+							<button class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
+								Mes cartes
+							</button>
+						</a>
+					{% endif %}
+					<!-- Si l'utilisateur est connecté, afficher un lien vers son profil ou déconnexion -->
+					<a href="{{ path('app_logout') }}">
 						<button class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
-							Créer une carte
+							Se déconnecter
 						</button>
 					</a>
-				{% else %}
-					<a href="/cards">
-						<button class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
-							Mes cartes
-						</button>
-					</a>
-				{% endif %}
-				<!-- Si l'utilisateur est connecté, afficher un lien vers son profil ou déconnexion -->
-				<a href="{{ path('app_logout') }}">
-					<button class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
-						Se déconnecter
-					</button>
+				</div>
+			{% else %}
+				<!-- Si l'utilisateur n'est pas connecté, afficher le bouton de connexion -->
+				<a href="{{ path('app_login') }}" class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
+					Se connecter
 				</a>
-			</div>
-		{% else %}
-			<!-- Si l'utilisateur n'est pas connecté, afficher le bouton de connexion -->
-			<a href="{{ path('app_login') }}" class="cta-button text-xs sm:text-xs md:text-sm lg:text-lg !px-6 !py-3">
-				Se connecter
-			</a>
-		{% endif %}
-	</div>
+			{% endif %}
+		</div>
+	{% endif %}
 </div>
