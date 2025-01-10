@@ -1,7 +1,7 @@
 document.querySelectorAll(".card").forEach((card) => {
   card.addEventListener("click", (e) => {
     if (window.innerWidth < 768) {
-      return; // Ne rien faire si la largeur de l'écran est inférieure à 768px
+      return;
     }
 
     // Empêcher la propagation du clic pour éviter que le clic sur la carte déclenche l'événement global
@@ -28,7 +28,6 @@ document.querySelectorAll(".card").forEach((card) => {
   });
 });
 
-// Écouter les clics sur tout le document
 document.addEventListener("click", () => {
   // Réduire toutes les cartes agrandies
   document.querySelectorAll(".card.expanded").forEach((expandedCard) => {

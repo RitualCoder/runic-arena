@@ -63,8 +63,8 @@ class CardFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Entrez un nombre',
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
-                    'maxlength' => 3,  // Limite à 3 caractères
-                    'pattern' => '^[1-9][0-9]{0,2}$', // Regular expression to allow only numbers between 1 and 999
+                    'maxlength' => 3,
+                    'pattern' => '^[0-9][0-9]{0,2}$', // Expression régulière pour les nombres de 0 à 999
                 ],
                 'mapped' => true,
                 'required' => true,
@@ -90,15 +90,11 @@ class CardFormType extends AbstractType
                     'style' => 'resize: none; white-space: pre-wrap;',
                 ],
             ])
-
-            // Ajoutez la collection d'attaques
             ->add('attacks', CollectionType::class, [
                 'label' => false,
                 'entry_type' => AttackFormType::class, // Le type de formulaire pour chaque attaque
                 'entry_options' => ['label' => false],
                 'allow_add' => true, // Permet d'ajouter dynamiquement des attaques
-                'by_reference' => false, // Assurez-vous que les attaques sont traitées comme des entités distinctes
-                'prototype' => true, // Permet de générer un prototype d'attaque
             ]);
     }
 

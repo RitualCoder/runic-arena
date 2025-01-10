@@ -7,15 +7,13 @@
 	<div
 		class="h-screen flex flex-col items-center z-10 relative overflow-hidden min-w-[500px]">
 		<!-- Carré jaune (fond) -->
-		<div class="absolute -top-[30%] left-[50%] h-[150%] w-[90%] bg-primary rotate-12 z-0"></div>
+		<div class="absolute -top-[30%] left-[50%] h-[155%] w-[90%] bg-primary rotate-12 z-0"></div>
 
 		<!-- Navbar -->
 		{% include 'components/navbar.html.twig' %}
 
 		<!-- Contenu principal -->
-		<div
-			class="flex items-center w-full flex-grow p-6 !pt-0 sm:p-8 md:p-10 relative z-10">
-			<!-- Conteneur avec hauteur fixe et scrolling activé -->
+		<div class="flex items-center w-full flex-grow p-6 !pt-0 sm:p-8 md:p-10 relative z-10">
 			<div class="flex flex-wrap p-10 justify-center gap-16 w-full h-[calc(100vh-120px)] border-[10px] rounded-[30px] border-primary bg-white overflow-y-auto no-scrollbar">
 				{% for card in cards %}
 					<div class="card-container p-1 block w-[350px] h-[550px] mb-5">
@@ -38,7 +36,7 @@
 	</div>
 
 
-	<!-- Effet 3D de la carte au survol avec souris -->
+	<!-- Effet 3D de la carte -->
 	<script src="{{ asset('js/effects.js') }}"></script>
 
 	<!-- Agrandissement de la carte au clique -->

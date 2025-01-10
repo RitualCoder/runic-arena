@@ -4,11 +4,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        GillSans: ["GillSans", "sans-serif"],
-        GillSansCn: ["GillSansCn", "sans-serif"],
-        Mitra: ["Mitra", "sans-serif"],
-        Kanit: ["Kanit", "sans-serif"],
-        Jaro: ["Jaro", "sans-serif"],
+        GillSans: "var(--font-gill)",
+        Mitra: "var(--font-mitra)",
+        Kanit: "var(--font-kanit)",
+        Jaro: "var(--font-jaro)",
       },
       fontWeight: {
         medium: 500,
