@@ -32,7 +32,15 @@
 
 				<div class="flex flex-col gap-4 w-[70%] max-w-[700px] min-w-[300px]">
 					{{ form_start(formCard) }}
-					{{ form_row(formCard.name) }}
+
+					<div class="flex items-center gap-4 w-full">
+						<div class="flex-1">
+							{{ form_row(formCard.name) }}
+						</div>
+						<button class="cta-button text-sm whitespace-nowrap max-w-max" id="generate-name-button" data-url="{{ path('generate_card_name') }}">Générer un nom</button>
+					</div>
+
+
 					{{ form_row(formCard.type) }}
 					{{ form_row(formCard.rarity) }}
 					{{ form_row(formCard.hp) }}
@@ -74,11 +82,8 @@
 
 					{{ form_end(formCard) }}
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
 
 	<!-- Effets 3D de la carte -->
@@ -92,5 +97,8 @@
 
 	<!-- Agrandi la carte au clique -->
 	<script src="{{ asset('js/expand.js') }}"></script>
+
+	<!-- Génère un nom aléatoire -->
+	<script src="{{ asset('js/generate_name.js') }}"></script>
 
 {% endblock %}
