@@ -21,7 +21,6 @@
 
 ###> symfony/asset-mapper ###
 /assets/vendor/
-/public/images/cards/
 ###< symfony/asset-mapper ###
 
 .idea/
