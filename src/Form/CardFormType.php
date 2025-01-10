@@ -59,9 +59,9 @@ class CardFormType extends AbstractType
             ])
             ->add('hp', TextType::class, [
                 'label' => 'Points de vie',
-                'data' => 0,
                 'attr' => [
                     'placeholder' => 'Entrez un nombre',
+                    'default' => 0,
                     'class' => 'w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:outline-none transition duration-200 ease-in-out mb-4',
                     'maxlength' => 3,
                     'pattern' => '^[0-9][0-9]{0,2}$', // Expression régulière pour les nombres de 0 à 999

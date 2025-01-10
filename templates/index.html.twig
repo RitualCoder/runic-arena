@@ -55,7 +55,7 @@
 				{% endif %}
 			</div>
 
-			<!-- Images décoratives -->
+			<!-- Formes décoratives -->
 			<img src="/assets/forms/yellowRound.png" alt="yellowRound" class="absolute -top-10 left-[40%] h-[150px] sm:h-[200px] -rotate-6 z-0">
 			<img src="/assets/forms/whiteDots.png" alt="points blanc" class="absolute bottom-[5%] left-[60%] sm:left-[50%] h-[120px] sm:h-[150px] z-0">
 		</section>
@@ -65,7 +65,7 @@
 		<section class="page-section h-screen flex flex-col items-center relative p-5 md:p-10">
 			<div class="flex flex-col items-center bg-white border-[10px] rounded-[30px] border-primary w-full h-full md:p-5 overflow-x-hidden">
 				<h3 class="text-2xl md:text-4xl font-Kanit font-medium p-5 md:p-0">Les dernières créations</h3>
-				<div class="flex flex-wrap justify-center gap-16 w-full h-full min-w-fit overflow-y-auto p-10">
+				<div class="flex flex-wrap justify-center items-center gap-16 w-full h-full overflow-y-auto p-10 py-5">
 					{% for card in threeLastCards %}
 						<div class="card-container p-1 block w-[350px] h-auto">
 							{% include '/components/cards/' ~ card.rarity.name|lower ~ '.html.twig' %}

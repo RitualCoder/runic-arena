@@ -44,8 +44,38 @@
 		</div>
 
 		{# Description de la carte #}
-		<div class="flex absolute z-20 bottom-[16px] right-[18px] w-[160px] h-[32px] text-right items-center overflow-hidden">
+		<div class="flex absolute z-20 bottom-[13px] right-[18px] w-[160px] h-[32px] text-right items-center overflow-hidden">
 			<p class="card-description w-full font-Mitra font-medium text-[11px] leading-[11px] text-gray-700 text-right">{{ card.description }}</p>
+		</div>
+
+		{# Faiblesse #}
+		<div class="absolute font-GillSans z-20 bottom-[53.5px] left-[20px] w-[160px] text-[7px] items-center">
+			<p class="text-black">Faiblesse</p>
+		</div>
+
+		{# Résistance #}
+		<div class="absolute font-GillSans z-20 bottom-[53.5px] left-[107px] text-[7px] items-center overflow-hidden">
+			<p class="text-black">Résistance</p>
+		</div>
+
+		{# Retraite #}
+		<div class="absolute font-GillSans flex z-20 bottom-[52.5px] left-[215px] text-[7px] items-center overflow-hidden gap-1">
+			<p class="text-black">Retraite</p>
+			<img src="/assets/energies/{{ card.type.name|lower }}.png" alt="energy.png" class="w-[12px] h-[12px] rounded-full">
+		</div>
+
+		{# Illustration #}
+		<div class="absolute flex flex-col z-20 bottom-[15px] left-[20px] text-black gap-[1px]">
+			<p class="w-full font-GillSans font-medium text-[6px] leading-[6px]">Illus. Runic Arena</p>
+			<p class="text-[7px] flex items-center">
+				001/151
+				<span class="text-[8px] text-black ml-[2px]">●</span>
+			</p>
+		</div>
+
+		{# Credits #}
+		<div class="absolute z-10 bottom-[4px] left-0 w-full">
+			<p class="w-full font-GillSans font-medium text-[6px] leading-[6px] text-black text-center">©2025 Pokemon / Nintendo / Creatures / GAME FREAK</p>
 		</div>
 
 		{# Shine effects + glare #}
