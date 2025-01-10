@@ -37,7 +37,7 @@
 						<div class="flex-1">
 							{{ form_row(formCard.name) }}
 						</div>
-						<button class="cta-button text-sm whitespace-nowrap max-w-max" id="generate-name-button">Générer un nom</button>
+						<button class="cta-button text-sm whitespace-nowrap max-w-max" id="generate-name-button" data-url="{{ path('generate_card_name') }}">Générer un nom</button>
 					</div>
 
 
@@ -82,11 +82,8 @@
 
 					{{ form_end(formCard) }}
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
 
 	<!-- Effets 3D de la carte -->
@@ -101,24 +98,7 @@
 	<!-- Agrandi la carte au clique -->
 	<script src="{{ asset('js/expand.js') }}"></script>
 
-	<script>
-
-		document.getElementById('generate-name-button').addEventListener('click', function (e) {
-e.preventDefault(); // Empêche le comportement par défaut du bouton (soumission du formulaire)
-
-fetch("{{ path('generate_card_name') }}", {
-method: 'GET',
-headers: {
-'Content-Type': 'application/json'
-}
-}).then(response => response.json()).then(data => { // Remplir le champ avec le nom généré
-const cardName = document.querySelector('.card-name');
-document.getElementById('card_form_name').value = data.name;
-cardName.innerHTML = data.name;
-}).catch(error => {
-console.error('Erreur:', error);
-});
-});
-	</script>
+	<!-- Génère un nom aléatoire -->
+	<script src="{{ asset('js/generate_name.js') }}"></script>
 
 {% endblock %}
