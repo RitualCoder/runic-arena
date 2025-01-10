@@ -32,7 +32,15 @@
 
 				<div class="flex flex-col gap-4 w-[70%] max-w-[700px] min-w-[300px]">
 					{{ form_start(formCard) }}
-					{{ form_row(formCard.name) }}
+
+					<div class="flex items-center gap-4 w-full">
+						<div class="flex-1">
+							{{ form_row(formCard.name) }}
+						</div>
+						<button class="cta-button text-sm whitespace-nowrap max-w-max" id="generate-name-button">Générer un nom</button>
+					</div>
+
+
 					{{ form_row(formCard.type) }}
 					{{ form_row(formCard.rarity) }}
 					{{ form_row(formCard.hp) }}
@@ -92,5 +100,25 @@
 
 	<!-- Agrandi la carte au clique -->
 	<script src="{{ asset('js/expand.js') }}"></script>
+
+	<script>
+
+		document.getElementById('generate-name-button').addEventListener('click', function (e) {
+e.preventDefault(); // Empêche le comportement par défaut du bouton (soumission du formulaire)
+
+fetch("{{ path('generate_card_name') }}", {
+method: 'GET',
+headers: {
+'Content-Type': 'application/json'
+}
+}).then(response => response.json()).then(data => { // Remplir le champ avec le nom généré
+const cardName = document.querySelector('.card-name');
+document.getElementById('card_form_name').value = data.name;
+cardName.innerHTML = data.name;
+}).catch(error => {
+console.error('Erreur:', error);
+});
+});
+	</script>
 
 {% endblock %}
