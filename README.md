@@ -7,8 +7,8 @@ Runic Arena est un projet développé en Symfony. Ce guide vous aidera à initia
 Assurez-vous que les éléments suivants sont installés sur votre machine :
 - PHP 8.1 ou supérieur
 - Composer
-- Symfony CLI (facultatif, mais recommandé)
-- Serveur MySQL ou MariaDB
+- Symfony CLI
+- Serveur MySQL ou MariaDB (MAMP ou WAMP)
 
 ---
 
