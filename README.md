@@ -17,7 +17,7 @@ Assurez-vous que les éléments suivants sont installés sur votre machine :
 ### 1. Cloner le dépôt
 Clonez le dépôt sur votre machine locale :
 ```bash
-git clone https://github.com/votre-utilisateur/runic-arena.git
+git clone https://github.com/RitualCoder/runic-arena.git
 cd runic-arena
 ```
 
